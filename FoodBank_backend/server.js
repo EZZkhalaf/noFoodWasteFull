@@ -1,44 +1,44 @@
-const express = require('express');
-const dotenv = require('dotenv').config();
-const connectdb = require('./Config/mongoConnect');
-const jwt = require('jsonwebtoken')
-const cors = require('cors');
-const cloudinary = require('./cloudinaryConfig')
-const path = require('path');
+// const express = require('express');
+// const dotenv = require('dotenv').config();
+// const connectdb = require('./Config/mongoConnect');
+// const jwt = require('jsonwebtoken')
+// const cors = require('cors');
+// const cloudinary = require('./cloudinaryConfig')
+// const path = require('path');
 
-const app = express();
-app.use(cors({
-  origin: ['https://nofoodwaste-occn.onrender.com'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-app.options('*', cors());
-
-
-const PORT = process.env.PORT || 5000;
-connectdb();
-
-app.use(express.static(path.join(__dirname, 'client/dist'))); // or 'client/build' for CRA
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist', 'index.html')); // adjust if you're using 'build'
-});
-
-app.use(express.json())
+// const app = express();
+// app.use(cors({
+//   origin: ['https://nofoodwaste-occn.onrender.com'],
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
+// app.options('*', cors());
 
 
-app.use('/recipe' ,require("./routes/recipe"));
-app.use('/user' , require('./routes/user'));
-app.use('/ingredients' , require('./routes/ingredients'));
-app.use('/apiDeepseek' , require('./routes/apiDeepseek'))
+// const PORT = process.env.PORT || 5000;
+// connectdb();
+
+// app.use(express.static(path.join(__dirname, 'client/dist'))); // or 'client/build' for CRA
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client/dist', 'index.html')); // adjust if you're using 'build'
+// });
+
+// app.use(express.json())
 
 
-app.listen(PORT , (err) =>{
-    console.log(`running in PORT ${PORT}`)
-})
+// app.use('/recipe' ,require("./routes/recipe"));
+// app.use('/user' , require('./routes/user'));
+// app.use('/ingredients' , require('./routes/ingredients'));
+// app.use('/apiDeepseek' , require('./routes/apiDeepseek'))
 
 
-module.exports = app;
+// app.listen(PORT , (err) =>{
+//     console.log(`running in PORT ${PORT}`)
+// })
+
+
+// module.exports = app;
 
 // /api
 // ├── /ingredients
@@ -66,50 +66,43 @@ module.exports = app;
 //will be added search by user name 
 
 
+const express = require('express');
+require('dotenv').config();
+const connectdb = require('./Config/mongoConnect');
+const cors = require('cors');
+const cloudinary = require('./cloudinaryConfig');
+const path = require('path');
 
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-// const express = require('express');
-// const dotenv = require('dotenv').config();
-// const connectdb = require('./Config/mongoConnect');
-// const jwt = require('jsonwebtoken');
-// const cors = require('cors');
-// const cloudinary = require('./cloudinaryConfig');
-// const path = require('path');
+connectdb();
 
-// const app = express();
-// const PORT = process.env.PORT || 5000;
+app.use(cors({
+  origin: ['https://nofoodwaste-occn.onrender.com'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
-// connectdb();
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// app.use(cors({
-//   origin: ['https://nofoodwaste-occn.onrender.com'],
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// }));
-// app.options('*', cors());
+app.use('/recipe', require("./routes/recipe"));
+app.use('/user', require('./routes/user'));
+app.use('/ingredients', require('./routes/ingredients'));
+app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 
-// app.use(express.json({ limit: '10mb' }));
-// app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.static(path.join(__dirname, '../foodbank_frontend/dist')));
 
-// // API routes first
-// app.use('/recipe', require("./routes/recipe"));
-// app.use('/user', require('./routes/user'));
-// app.use('/ingredients', require('./routes/ingredients'));
-// app.use('/apiDeepseek', require('./routes/apiDeepseek'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../foodbank_frontend/dist', 'index.html'));
+});
 
-// app.use(express.static(path.join(__dirname, '../foodbank_frontend/dist')));
+app.listen(PORT, (err) => {
+  if (err) console.error(err);
+  console.log(`Running on PORT ${PORT}`);
+});
 
-// // The "catchall" handler: for any request that doesn't
-// // match one above, send back React's index.html file.
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../foodbank_frontend/dist', 'index.html'));
-// });
-
-
-// app.listen(PORT, (err) => {
-//   if (err) console.error(err);
-//   console.log(`Running on PORT ${PORT}`);
-// });
-
-// module.exports = app;
+// Only needed if testing:
+module.exports = app;
