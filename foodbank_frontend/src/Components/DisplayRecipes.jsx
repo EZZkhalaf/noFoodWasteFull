@@ -7,7 +7,7 @@ const DisplayRecipes = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await fetch('http://localhost:3000/recipe');
+        const res = await fetch('https://nofoodwastefull.onrender.com/recipe');
         const data = await res.json();
         setRecipes(data);
       } catch (err) {

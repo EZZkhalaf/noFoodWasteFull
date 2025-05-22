@@ -219,7 +219,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ThreeDot } from 'react-loading-indicators';
 import { motion } from 'framer-motion';
 
-const API_ENDPOINT = 'http://localhost:3000/recipe/getRecipesPerPage';
+const API_ENDPOINT = 'https://nofoodwastefull.onrender.com/recipe/getRecipesPerPage';
 const RECIPES_PER_PAGE = 12;
 
 const FindRecipes = () => {

@@ -26,7 +26,7 @@ const UserPage = () => {
   useEffect(()=>{
     if(!user || !user._id) return ;
     const checkFollowStatus = async() =>{
-        const response = await fetch("http://localhost:3000/user/checkFollowStatus", {
+        const response = await fetch("https://nofoodwastefull.onrender.com/user/checkFollowStatus", {
           method: "post",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ currentuserid: user._id, otheruserid: user2_id }),
@@ -49,7 +49,7 @@ const UserPage = () => {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:3000/user/getUserById", {
+        const res = await fetch("https://nofoodwastefull.onrender.com/user/getUserById", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: user2_id }),
@@ -74,7 +74,7 @@ const UserPage = () => {
 
   const  handleToggleFollowButton = async() =>{
     try {
-      const response = await fetch('http://localhost:3000/user/toggleFollow' ,{
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/toggleFollow' ,{
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -96,7 +96,7 @@ const UserPage = () => {
     const fetchUserRecipes = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:3000/recipe/getUserRecipes/${userPageOwner._id}`
+        const res = await fetch(`https://nofoodwastefull.onrender.com/recipe/getUserRecipes/${userPageOwner._id}`
 
         );
         if (!res.ok) throw new Error(`Error: ${res.statusText}`);

@@ -84,7 +84,7 @@ const AddRecipe = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/ingredients/searchIngredient`, {
+      const response = await fetch(`https://nofoodwastefull.onrender.com/ingredients/searchIngredient`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -166,7 +166,7 @@ const AddRecipe = () => {
         imageData = formData.recipe_image;
       }
 
-      const response = await fetch('http://localhost:3000/recipe', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/recipe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -210,7 +210,7 @@ const AddRecipe = () => {
     const instructionsMessage = formData.instructions ;
     const message =  instructionsMessage + 'for the recipe : ' + formData.recipe_title;
       try {
-        const response = await fetch('http://localhost:3000/apiDeepseek/improveInstructions' , {
+        const response = await fetch('https://nofoodwastefull.onrender.com/apiDeepseek/improveInstructions' , {
           method:'post' ,
           headers:{'Content-Type' : 'application/json'},
           body : JSON.stringify({message : message})

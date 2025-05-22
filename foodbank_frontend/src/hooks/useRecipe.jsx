@@ -21,7 +21,7 @@ export const useRecipe = (RecipeId, user) => {
       setLoading(true);
 
       try {
-        const recipeResponse = await fetch(`http://localhost:3000/recipe/${RecipeId}`, {
+        const recipeResponse = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -30,7 +30,7 @@ export const useRecipe = (RecipeId, user) => {
         const recipeData = await recipeResponse.json();
         setRecipe(recipeData);
 
-        const userResponse = await fetch('http://localhost:3000/user/getUserById', {
+        const userResponse = await fetch('https://nofoodwastefull.onrender.com/user/getUserById', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: recipeData.recipe_user }),
@@ -54,7 +54,7 @@ export const useRecipe = (RecipeId, user) => {
  // Check if recipe is bookmarked
  useEffect(() => {
     const checkBookmark = async () => {
-      const response = await fetch('http://localhost:3000/user/checkSave', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/checkSave', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -92,7 +92,7 @@ export const useRecipe = (RecipeId, user) => {
       formData.append('newCookingTime', newCookingTime);
       formData.append('newRecipe_image', newRecipeImage);
 
-      const response = await fetch(`http://localhost:3000/recipe/${RecipeId}`, {
+      const response = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}`, {
         method: 'POST',
         body: formData
       });

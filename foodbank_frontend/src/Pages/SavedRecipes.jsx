@@ -19,13 +19,13 @@ const SavedRecipes = () => {
       setLoading(true);
       try {
 
-        const response = await fetch(`http://localhost:3000/user/savedRecipes/${userid}`);
+        const response = await fetch(`https://nofoodwastefull.onrender.com/user/savedRecipes/${userid}`);
         const data = await response.json();
         if(data.length === 0){
           setRecipes([]);
           return 
         }
-        const response2 = await fetch('http://localhost:3000/recipe/getMultipleRecipesData' , {
+        const response2 = await fetch('https://nofoodwastefull.onrender.com/recipe/getMultipleRecipesData' , {
           method : 'POST' ,
           headers: {"Content-Type" : 'application/json'},
           body : JSON.stringify({

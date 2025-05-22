@@ -44,7 +44,7 @@ const RecipeInfo = () => {
   // Check if recipe is bookmarked
   useEffect(() => {
     const checkBookmark = async () => {
-      const response = await fetch('http://localhost:3000/user/checkSave', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/checkSave', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -67,7 +67,7 @@ const RecipeInfo = () => {
       setLoading(true);
 
       try {
-        const recipeResponse = await fetch(`http://localhost:3000/recipe/${RecipeId}`, {
+        const recipeResponse = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -76,7 +76,7 @@ const RecipeInfo = () => {
         const recipeData = await recipeResponse.json();
         setRecipe(recipeData);
 
-        const userResponse = await fetch('http://localhost:3000/user/getUserById', {
+        const userResponse = await fetch('https://nofoodwastefull.onrender.com/user/getUserById', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: recipeData.recipe_user }),
@@ -119,7 +119,7 @@ const RecipeInfo = () => {
       formData.append('newRecipe_image', newRecipeImage); // File object
 
 
-      const response = await fetch(`http://localhost:3000/recipe/${RecipeId}`, {method: 'post', body: formData});
+      const response = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}`, {method: 'post', body: formData});
 
       // if (!response.ok) throw new Error('Failed to update recipe');
       const updatedRecipe = await response.json();

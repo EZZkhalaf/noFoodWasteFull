@@ -47,7 +47,7 @@ export const useAuthContext = () => {
 
 // just returns the updated user JSON
 export const fetchUserData = async (userId) => {
-  const res = await fetch(`http://localhost:3000/user/${userId}`);
+  const res = await fetch(`https://nofoodwastefull.onrender.com/user/${userId}`);
   if (!res.ok) throw new Error('Fetch user failed');
   return res.json();
 };

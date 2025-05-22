@@ -84,7 +84,7 @@ const UserProfile = () => {
 
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:3000/recipe/getUserRecipes/${user._id}`);
+        const res = await fetch(`https://nofoodwastefull.onrender.com/recipe/getUserRecipes/${user._id}`);
         if (!res.ok) throw new Error(`Error: ${res.statusText}`);
         const data = await res.json();
         setRecipes(data);
@@ -110,7 +110,7 @@ const UserProfile = () => {
     formData.append('image', previewImage);
 
     try {
-      const response = await fetch('http://localhost:3000/user/updateTheUserProfile', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/updateTheUserProfile', {
         method: 'POST',
         body: formData
       });
@@ -126,7 +126,7 @@ const UserProfile = () => {
 
   // in UserProfile.jsx
   const fetchUserData = async (id) => {
-    const res = await fetch('http://localhost:3000/user/getUserById', {
+    const res = await fetch('https://nofoodwastefull.onrender.com/user/getUserById', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: id }),

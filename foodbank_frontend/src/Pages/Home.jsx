@@ -27,7 +27,7 @@ const Home = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch('http://localhost:3000/recipe');
+        const response = await fetch('https://nofoodwastefull.onrender.com/recipe');
         if (!response.ok) throw new Error('Failed to fetch recipes');
         const data = await response.json();
         setRecipes(data);
@@ -35,7 +35,7 @@ const Home = () => {
         setCategories(uniqueTypes);
 
         //this hook for the most bookmarked recipe fetching 
-        const response2 = await fetch('http://localhost:3000/recipe/mostPopularRecipe/first');
+        const response2 = await fetch('https://nofoodwastefull.onrender.com/recipe/mostPopularRecipe/first');
         if (!response2.ok) {
           console.error("Error in the response from the backend:", response2.statusText);
           return;

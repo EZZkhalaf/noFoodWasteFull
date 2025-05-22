@@ -10,8 +10,8 @@ const BookmarkButton = ({ recipeId, userId, isBookmarked: initialIsBookmarked })
     setLoading(true);
     try {
       const endpoint = isBookmarked 
-        ? 'http://localhost:3000/user/unsave' 
-        : 'http://localhost:3000/user/save';
+        ? 'https://nofoodwastefull.onrender.com/user/unsave' 
+        : 'https://nofoodwastefull.onrender.com/user/save';
       
       const response = await fetch(endpoint, {
         method: 'POST',

@@ -26,7 +26,7 @@ const IngredientSelection = ({ selectedItems, setSelectedItems  , componentTitle
     }
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3000/ingredients/searchIngredient', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/ingredients/searchIngredient', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredient_name: searchedIng }),
@@ -46,7 +46,7 @@ const IngredientSelection = ({ selectedItems, setSelectedItems  , componentTitle
   useEffect(() => {
     const getFirst30 = async () => {
       try {
-        const response = await fetch('http://localhost:3000/ingredients/getFirst20');
+        const response = await fetch('https://nofoodwastefull.onrender.com/ingredients/getFirst20');
         if (!response.ok) throw new Error('Error in fetching the data and the network');
 
         const data = await response.json();

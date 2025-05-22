@@ -18,7 +18,7 @@ const IngredientSearchRecipeEdit = ({
         const searchIngredients = async () => {
           setIsSearching(true);
           try {
-            const response = await fetch('http://localhost:3000/ingredients/searchIngredient', {
+            const response = await fetch('https://nofoodwastefull.onrender.com/ingredients/searchIngredient', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ingredient_name: searchQuery }),

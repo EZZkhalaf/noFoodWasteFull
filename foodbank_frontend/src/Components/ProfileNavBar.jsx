@@ -43,7 +43,7 @@ const ProfileNavBar = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/user/search", {
+      const response = await fetch("https://nofoodwastefull.onrender.com/user/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: searchedUser }),

@@ -15,7 +15,7 @@ const UserFollowModal = ({ users: userIds, onClose, title = "Users" }) => {
         setLoading(true)
       try {
         const response = await fetch(
-          "http://localhost:3000/user/getMultiUsersById",
+          "https://nofoodwastefull.onrender.com/user/getMultiUsersById",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

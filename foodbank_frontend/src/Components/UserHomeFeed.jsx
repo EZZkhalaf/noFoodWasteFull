@@ -22,7 +22,7 @@ useEffect(() => {
         // Get token either from localStorage or from context
         const token = localStorage.getItem('token') || user.token;
         try {
-            const res = await fetch('http://localhost:3000/user/getUserFeed', {
+            const res = await fetch('https://nofoodwastefull.onrender.com/user/getUserFeed', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

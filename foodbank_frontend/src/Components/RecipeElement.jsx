@@ -32,7 +32,7 @@ const RecipeElement = ({ RecipeId, recipe_image, recipe_name, recipe_description
   useEffect(() => {
     const checkSavedStatus = async () => {
       try {
-        const response = await fetch('http://localhost:3000/user/checkSave', {
+        const response = await fetch('https://nofoodwastefull.onrender.com/user/checkSave', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -58,7 +58,7 @@ const RecipeElement = ({ RecipeId, recipe_image, recipe_name, recipe_description
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3000/user/save', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -84,7 +84,7 @@ const RecipeElement = ({ RecipeId, recipe_image, recipe_name, recipe_description
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3000/user/unsave', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/unsave', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

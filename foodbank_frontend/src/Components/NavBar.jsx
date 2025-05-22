@@ -264,7 +264,7 @@ const NavBar = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:3000/user/search", {
+      const res = await fetch("https://nofoodwastefull.onrender.com/user/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: searchedUser }),
