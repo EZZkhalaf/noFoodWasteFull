@@ -70,20 +70,21 @@ const cors = require('cors');
 const cloudinary = require('./cloudinaryConfig');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Connect to DB
+// Connect to MongoDB
 connectdb();
 
-// CORS for Frontend on Render
+// CORS setup to allow requests from your frontend
 app.use(cors({
-  origin: 'https://nofoodwaste-occn.onrender.com',
+  origin: 'https://nofoodwaste-occn.onrender.com', // Your deployed frontend URL
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.options('*', cors());
 
-// Middleware
+// Body parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -93,11 +94,14 @@ app.use('/user', require('./routes/user'));
 app.use('/ingredients', require('./routes/ingredients'));
 app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 
-// Start Server
-const PORT = process.env.PORT || 5000;
+// Fallback for unmatched routes (optional)
+app.use('*', (req, res) => {
+  res.status(404).json({ message: 'API route not found' });
+});
+
+// Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
 
-module.exports = app;
 
