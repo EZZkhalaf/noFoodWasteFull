@@ -7,11 +7,12 @@ const cloudinary = require('./cloudinaryConfig')
 
 
 const app = express();
-const corsOption = {
-    origin: 'https://nofoodwaste-occn.onrender.com', // Allow only requests from this origin
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-}
-app.use(cors(corsOption))
+app.use(cors({
+  origin: ['https://nofoodwaste-occn.onrender.com'], // your frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 const PORT = process.env.PORT || 5000;
 connectdb();
