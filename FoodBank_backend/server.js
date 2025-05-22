@@ -64,45 +64,56 @@
 
 
 //will be added search by user name 
-
-
 const express = require('express');
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 const connectdb = require('./Config/mongoConnect');
 const cors = require('cors');
-const cloudinary = require('./cloudinaryConfig');
+const cloudinary = require('./cloudinaryConfig'); // Assuming this sets up cloudinary
 const path = require('path');
 
+// Initialize Express App
 const app = express();
-const PORT = process.env.PORT || 5000;
 
+// Connect to MongoDB
 connectdb();
 
+// CORS Configuration
 app.use(cors({
-  origin: ['https://nofoodwaste-occn.onrender.com'],
+  origin: 'https://nofoodwaste-occn.onrender.com',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.options('*', cors()); // Preflight requests
+
+// Body Parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-app.use('/recipe', require("./routes/recipe"));
+// API Routes
+app.use('/recipe', require('./routes/recipe'));
 app.use('/user', require('./routes/user'));
 app.use('/ingredients', require('./routes/ingredients'));
 app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 
-app.use(express.static(path.join(__dirname, '../foodbank_frontend/dist')));
+// Serve Frontend Build
+const frontendPath = path.join(__dirname, '../foodbank_frontend/dist');
+app.use(express.static(frontendPath));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../foodbank_frontend/dist', 'index.html'));
+// Handle React Routing, Avoiding API Routes
+const apiRoutes = ['/recipe', '/user', '/ingredients', '/apiDeepseek'];
+app.get('*', (req, res, next) => {
+  if (apiRoutes.some(route => req.path.startsWith(route))) {
+    return next();
+  }
+  res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-app.listen(PORT, (err) => {
-  if (err) console.error(err);
-  console.log(`Running on PORT ${PORT}`);
+// Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
 
-// Only needed if testing:
 module.exports = app;
