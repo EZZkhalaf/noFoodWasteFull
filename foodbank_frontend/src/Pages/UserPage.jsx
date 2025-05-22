@@ -252,10 +252,12 @@ const UserPage = () => {
 
   return (
   <div className="w-full mx-5 xl:mx-auto max-w-6xl p-6">
-    <NavBar />
+   
+      <NavBar />
+    
     <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-4">
       {/* User Profile Section */}
-      <div className="flex flex-col md:flex-row items-center sm:mt-7 md:mt-7 md:items-start space-y-6 md:space-y-0 md:space-x-8">
+      {/* <div className="flex flex-col md:flex-row items-center sm:mt-7 md:mt-7 md:items-start space-y-6 md:space-y-0 md:space-x-8">
         <img
           src={userProfilePic}
           alt={`${userPageOwner.username}'s profile`}
@@ -278,7 +280,33 @@ const UserPage = () => {
             {follower ? "Unfollow" : "Follow"}
           </button>
         </div>
-      </div>
+      </div> */}
+
+        <div className="flex flex-col md:flex-row items-center mt-6 sm:mt-10 md:mt-12 md:items-start space-y-6 md:space-y-0 md:space-x-8">
+  <img
+    src={userProfilePic}
+    alt={`${userPageOwner.username}'s profile`}
+    className="mt-4 sm:mt-0 w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-lg"
+  />
+  <div className="flex flex-col md:flex-row md:items-center justify-between w-full text-center md:text-left gap-4 md:gap-0">
+    <div className="flex flex-col">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+        {userPageOwner.username || "Guest"}
+      </h1>
+      <p className="text-gray-600 mt-2 max-w-md mx-auto md:mx-0">
+        {userPageOwner.bio || "No bio available"}
+      </p>
+    </div>
+
+    <button
+      onClick={handleToggleFollowButton}
+      className="mt-4 md:mt-0 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 self-center md:self-auto"
+    >
+      {follower ? "Unfollow" : "Follow"}
+    </button>
+  </div>
+</div>
+
 
       {/* Stats Section */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 text-center">
