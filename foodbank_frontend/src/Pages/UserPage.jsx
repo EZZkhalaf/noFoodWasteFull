@@ -6,7 +6,8 @@ import profileRecipeElement from "../Components/profileRecipeElement";
 import { useAuthContext } from "../Context/AuthContext";
 import RecipeElement from "../Components/RecipeElement";
 import { ThreeDot } from 'react-loading-indicators';
-
+import NavBar from '../Components/NavBar';
+import Footer from '../Components/Footer';
 
 const UserPage = () => {
   const { user } = useAuthContext();
@@ -165,6 +166,7 @@ const UserPage = () => {
 
   return (
     <div className="w-full mx-5 xl:mx-auto max-w-6xl p-6">
+      <NavBar />
       <div className="bg-white rounded-xl shadow-lg p-8">
         {/* User Profile Section */}
         <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
@@ -243,6 +245,7 @@ const UserPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
