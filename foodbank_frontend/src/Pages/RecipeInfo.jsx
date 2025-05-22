@@ -244,7 +244,7 @@ const RecipeInfo = () => {
     }
   
     try {
-      const response = await fetch(`http://localhost:3000/ingredients/searchIngredient`, {
+      const response = await fetch(`https://nofoodwastefull.onrender.com/ingredients/searchIngredient`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -282,7 +282,7 @@ const RecipeInfo = () => {
     const instructionsMessage = newInstruction || recipe.instructions;
     const message =  instructionsMessage + 'for the recipe : ' + recipe.recipe_title;
       try {
-        const response = await fetch('http://localhost:3000/apiDeepseek/improveInstructions' , {
+        const response = await fetch('https://nofoodwastefull.onrender.com/apiDeepseek/improveInstructions' , {
           method:'post' ,
           headers:{'Content-Type' : 'application/json'},
           body : JSON.stringify({message : message})
