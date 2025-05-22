@@ -309,11 +309,11 @@ const UserPage = () => {
        */}
 
             <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 text-center'>
-      <div onClick={handleShowFollowers} className='p-4 bg-gray-50 rounded-lg'>
+      <div  className='p-4 bg-gray-50 rounded-lg'>
         <p className='text-xl font-bold text-gray-800'>{userPageOwner?.followers?.length || 0}</p>
         <p className='text-gray-600'>Followers</p>
       </div>
-      <div onClick={handleShowFollowing} className='p-4 bg-gray-50 rounded-lg'>
+      <div  className='p-4 bg-gray-50 rounded-lg'>
         <p className='text-xl font-bold text-gray-800'>{userPageOwner?.following?.length || 0}</p>
         <p className='text-gray-600'>Following</p>
       </div>
