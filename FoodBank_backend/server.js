@@ -68,7 +68,6 @@ const dotenv = require('dotenv').config();
 const path = require('path');
 const connectdb = require('./Config/mongoConnect');
 const cors = require('cors');
-const cloudinary = require('./cloudinaryConfig');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -76,9 +75,9 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 connectdb();
 
-// CORS setup for your frontend origin
+// CORS setup for your frontend URL
 app.use(cors({
-  origin: 'https://nofoodwaste-occn.onrender.com', // Your frontend URL
+  origin: 'https://nofoodwaste-occn.onrender.com', // your deployed frontend URL
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -95,16 +94,16 @@ app.use('/user', require('./routes/user'));
 app.use('/ingredients', require('./routes/ingredients'));
 app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 
-// Serve React frontend static files
-app.use(express.static(path.join(__dirname, 'client/build')));
+// Serve React frontend static files from foodbank_frontend/build
+app.use(express.static(path.join(__dirname, 'foodbank_frontend/build')));
 
-// For any other GET request that is NOT handled by API routes,
-// serve React's index.html file to let React Router handle the route
+// For any other GET requests not handled by API routes,
+// send back React's index.html to allow client-side routing
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
 });
 
-// Optional: 404 handler for other HTTP methods on unknown routes (not GET)
+// 404 handler for other HTTP methods on unknown routes (optional)
 app.use((req, res) => {
   res.status(404).json({ message: 'API route not found' });
 });
@@ -113,5 +112,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
-
 
