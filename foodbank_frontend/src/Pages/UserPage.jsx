@@ -164,90 +164,6 @@ const UserPage = () => {
       );
     }
 
-  // return (
-  //   <div className="w-full mx-5 xl:mx-auto max-w-6xl p-6">
-  //     <NavBar />
-  //     <div className="bg-white rounded-xl shadow-lg p-8 mt-4">
-  //       {/* User Profile Section */}
-  //       <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
-  //         <img
-  //           src={userProfilePic}
-  //           alt={`${userPageOwner.username}'s profile`}
-  //           className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
-  //         />
-  //         <div className="flex items-center justify-between w-full text-center md:text-lef">
-  //           <div>
-  //           <h1 className="text-3xl font-bold text-gray-800">
-  //             {userPageOwner.username || "Guest"}
-  //           </h1>
-  //           <p className="text-gray-600 mt-2">
-  //             {userPageOwner.bio || "No bio available"}
-  //           </p>
-
-
-  //             </div>
-            
-  //             <button
-  //               onClick={handleToggleFollowButton}
-  //               className="mt-4 px-4 py-2 bg-blue-600 text-white font-semibold 
-  //               rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2
-  //               focus:ring-blue-400 focus:ring-opacity-75"
-  //               >
-  //               {follower ? "Unfollow" : "Follow"}
-                
-  //             </button>
-  //             </div>
-  //       </div>
-
-  //       {/* Stats Section */}
-  //       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 text-center">
-  //         <div className="p-4 bg-gray-50 rounded-lg">
-  //           <p className="text-xl font-bold text-gray-800">
-  //             {userPageOwner.followers?.length || 0}
-  //           </p>
-  //           <p className="text-gray-600">Followers</p>
-  //         </div>
-  //         <div className="p-4 bg-gray-50 rounded-lg">
-  //           <p className="text-xl font-bold text-gray-800">
-  //             {userPageOwner.following?.length || 0}
-  //           </p>
-  //           <p className="text-gray-600">Following</p>
-  //         </div>
-  //         <div className="p-4 bg-gray-50 rounded-lg">
-  //           <p className="text-xl font-bold text-gray-800">
-  //             {recipes.length || 0}
-  //           </p>
-  //           <p className="text-gray-600">Recipes</p>
-  //         </div>
-  //       </div>
-
-  //       {/* Recipes Section */}
-  //       <div className="mt-12">
-  //         <h2 className="text-2xl font-bold text-gray-800 mb-6">Recipes</h2>
-  //         <div className="mb-8">
-  //           <h3 className="text-xl font-semibold text-gray-700 mb-4">last Recipes</h3>
-  //           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  //             {recipes.length > 0 ? (
-  //               recipes.map((recipe) => (
-  //                 <RecipeElement
-  //                   key={recipe._id}
-  //                   RecipeId={recipe._id}
-  //                   recipe_image={recipe.recipe_image}
-  //                   recipe_name={recipe.recipe_title}
-  //                   cookingTime = {recipe.cookingTime}
-  //                   difficulty={recipe.difficullty}
-  //                 />
-  //               ))
-  //             ) : (
-  //               <p className="text-gray-600">No recipes created yet.</p>
-  //             )}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <Footer />
-  //   </div>
-  // );
 
 
   return (
@@ -286,42 +202,20 @@ const UserPage = () => {
 
 
       {/* Stats Section */}
-      {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 text-center">
-        <div className="p-4 bg-gray-50 rounded-lg">
-          <p className="text-xl font-bold text-gray-800">
-            {userPageOwner.followers?.length || 0}
-          </p>
-          <p className="text-gray-600">Followers</p>
-        </div>
-        <div className="p-4 bg-gray-50 rounded-lg">
-          <p className="text-xl font-bold text-gray-800">
-            {userPageOwner.following?.length || 0}
-          </p>
-          <p className="text-gray-600">Following</p>
-        </div>
-        <div className="p-4 bg-gray-50 rounded-lg">
-          <p className="text-xl font-bold text-gray-800">
-            {recipes.length || 0}
-          </p>
-          <p className="text-gray-600">Recipes</p>
-        </div>
-      </div>
-       */}
-
             <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 text-center'>
-      <div  className='p-4 bg-gray-50 rounded-lg'>
-        <p className='text-xl font-bold text-gray-800'>{userPageOwner?.followers?.length || 0}</p>
-        <p className='text-gray-600'>Followers</p>
-      </div>
-      <div  className='p-4 bg-gray-50 rounded-lg'>
-        <p className='text-xl font-bold text-gray-800'>{userPageOwner?.following?.length || 0}</p>
-        <p className='text-gray-600'>Following</p>
-      </div>
-      <div className='p-4 bg-gray-50 rounded-lg'>
-        <p className='text-xl font-bold text-gray-800'>{recipes?.length || 0}</p>
-        <p className='text-gray-600'>Recipes</p>
-      </div>
-    </div>
+              <div  className='p-4 bg-gray-50 rounded-lg'>
+                <p className='text-xl font-bold text-gray-800'>{userPageOwner?.followers?.length || 0}</p>
+                <p className='text-gray-600'>Followers</p>
+              </div>
+              <div  className='p-4 bg-gray-50 rounded-lg'>
+                <p className='text-xl font-bold text-gray-800'>{userPageOwner?.following?.length || 0}</p>
+                <p className='text-gray-600'>Following</p>
+              </div>
+              <div className='p-4 bg-gray-50 rounded-lg'>
+                <p className='text-xl font-bold text-gray-800'>{recipes?.length || 0}</p>
+                <p className='text-gray-600'>Recipes</p>
+              </div>
+            </div>
 
       {/* Recipes Section */}
       <div className="mt-12">

@@ -158,40 +158,11 @@ const RecipeInfo = () => {
     setNewRecipeImage(file);
   };
 
-  // Delete recipe
-  const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this recipe? This action cannot be undone.')) {
-      return;
-    }
-
-    setIsDeleting(true);
-
-    try {
-      const response = await fetch(`http://localhost:3000/recipe/`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipeid: RecipeId,
-        })
-      });
-
-      if (response.ok) {
-        // Redirect to home page or another appropriate page
-        window.location.href = `/`;
-      } else {
-        const data = await response.json();
-        console.error("Error deleting recipe:", data.message);
-      }
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
-    } finally {
-      setIsDeleting(false);
-    }
-  };
+  
 
   const deleteRecipe = async() =>{
     try {
-      const response = await fetch(`http://localhost:3000/recipe/${RecipeId}` ,{
+      const response = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}` ,{
         method:"delete",
         headers:{'Content-Type' : "application/json"},
         body:JSON.stringify({
