@@ -213,7 +213,7 @@ const UserPage = () => {
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
             <p className="text-xl font-bold text-gray-800">
-              {userPageOwner.ownRecipes?.length || 0}
+              {recipes.length || 0}
             </p>
             <p className="text-gray-600">Recipes</p>
           </div>
