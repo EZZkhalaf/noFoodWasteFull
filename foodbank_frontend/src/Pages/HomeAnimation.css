@@ -1,0 +1,75 @@
+/* Elegant rise and fade with depth */
+.fade-in-elevate {
+  animation: elevateIn 2s ease-out forwards;
+}
+
+@keyframes elevateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(60px) scale(0.96);
+    filter: blur(4px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-8px) scale(1.01);
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Subtle entrance with lateral motion */
+.slide-in-left-soft {
+  animation: slideInLeftSoft 1.2s ease-out forwards;
+}
+
+@keyframes slideInLeftSoft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Gentle pulse grow effect */
+.grow-in {
+  animation: growIn 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes growIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  70% {
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Blur and fade for background or cards */
+.blur-fade-in {
+  animation: blurFadeIn 1.8s ease-out forwards;
+}
+
+@keyframes blurFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}

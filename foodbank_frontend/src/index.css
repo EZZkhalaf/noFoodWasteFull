@@ -1,0 +1,17 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+
+* {
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+ /*Custom class using Roboto Condensed with a unique name and specific weight */
+.roboto-condensed-header {
+    font-family: "Roboto Condensed", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700; /* Bold */
+     font-style: normal;
+}
