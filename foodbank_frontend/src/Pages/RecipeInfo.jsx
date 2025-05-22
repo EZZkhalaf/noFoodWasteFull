@@ -307,7 +307,7 @@ const RecipeInfo = () => {
     if (loading) return;
 
     try {
-      const response = await fetch('http://localhost:3000/user/save', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentUserid: user._id, RecipeId })
@@ -328,7 +328,7 @@ const RecipeInfo = () => {
     if (loading) return;
 
     try {
-      const response = await fetch('http://localhost:3000/user/unsave', {
+      const response = await fetch('https://nofoodwastefull.onrender.com/user/unsave', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentUserid: user._id, RecipeId })
