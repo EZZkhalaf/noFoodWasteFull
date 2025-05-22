@@ -72,73 +72,144 @@ const IngredientSelection = ({ selectedItems, setSelectedItems  , componentTitle
   };
 
   return (
-    <div className="w-full h-1/2 min-h-[50vh] px-4 flex flex-col">
-      <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 h-full flex flex-col">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">{componentTitle}</h3>
+    // <div className="w-full h-1/2 min-h-[50vh] px-4 flex flex-col">
+    //   <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 h-full flex flex-col">
+    //     <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">{componentTitle}</h3>
 
-        {/* Search Input */}
-        <div className="relative w-full mb-4">
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
-            placeholder="Search ingredients..."
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-          />
+    //     {/* Search Input */}
+    //     <div className="relative w-full mb-4">
+    //       <input
+    //         value={query}
+    //         onChange={(e) => setQuery(e.target.value)}
+    //         type="text"
+    //         placeholder="Search ingredients..."
+    //         className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+    //       />
+    //     </div>
+
+    //     {/* Selected Items */}
+    //     {selectedItems.length > 0 && (
+    //       <div className="my-4">
+    //         <h4 className="text-sm font-medium text-gray-600 mb-2">Selected Ingredients:</h4>
+    //         <div className="flex flex-wrap gap-2 p-2 bg-gray-100 rounded-md">
+    //           {selectedItems.map((ingredient, index) => (
+    //             <IngredientElement
+    //               key={index}
+    //               ingredient={ingredient}
+    //               checked={selectedItems.includes(ingredient)}
+    //               onChangeHandler={() => handleSelectedItems(ingredient)}
+    //             />
+    //           ))}
+    //         </div>
+    //       </div>
+    //     )}
+
+    //     {/* Searched Ingredients */}
+    //     {searchedIngBucket.length > 0 && (
+    //       <div className="flex flex-wrap gap-4 p-4 min-w-[calc(40rem)] bg-gray-300 rounded-md shadow-md transition-all">
+    //         {loading ? (
+    //           <div className="w-full text-center py-6">
+    //             <div className="loader"></div> {/* Add custom loader */}
+    //           </div>
+    //         ) : (
+    //           visibleSearchedIngredients.map((ingredient, index) => (
+    //             <IngredientElement
+    //               key={index}
+    //               ingredient={ingredient.ingredient_name}
+    //               checked={selectedItems.includes(ingredient.ingredient_name)}
+    //               onChangeHandler={() => handleSelectedItems(ingredient.ingredient_name)}
+    //             />
+    //           ))
+    //         )}
+    //       </div>
+    //     )}
+
+    //     {/* Ingredients List (Selected) */}
+    //     {searchedIngBucket.length === 0 && (
+    //       <div className="flex flex-wrap gap-4 p-4 min-w-[calc(40rem)] bg-gray-200 rounded-md shadow-md transition-all">
+    //         {visibleIngredients.map((ingredient, index) => (
+    //           <IngredientElement
+    //             key={index}
+    //             ingredient={ingredient.ingredient_name}
+    //             checked={selectedItems.includes(ingredient.ingredient_name)}
+    //             onChangeHandler={() => handleSelectedItems(ingredient.ingredient_name)}
+    //           />
+    //         ))}
+    //       </div>
+    //     )}
+    //   </div>
+    // </div>
+
+    <div className="w-full min-h-[50vh] px-4 flex flex-col">
+  <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-gray-200 flex-1 flex flex-col">
+    <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 text-center">
+      {componentTitle}
+    </h3>
+
+    {/* Search Input */}
+    <div className="relative w-full mb-4">
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        type="text"
+        placeholder="Search ingredients..."
+        className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+      />
+    </div>
+
+    {/* Selected Items */}
+    {selectedItems.length > 0 && (
+      <div className="my-4">
+        <h4 className="text-sm font-medium text-gray-600 mb-2">Selected Ingredients:</h4>
+        <div className="flex flex-wrap gap-2 p-2 bg-gray-100 rounded-md">
+          {selectedItems.map((ingredient, index) => (
+            <IngredientElement
+              key={index}
+              ingredient={ingredient}
+              checked={selectedItems.includes(ingredient)}
+              onChangeHandler={() => handleSelectedItems(ingredient)}
+            />
+          ))}
         </div>
+      </div>
+    )}
 
-        {/* Selected Items */}
-        {selectedItems.length > 0 && (
-          <div className="my-4">
-            <h4 className="text-sm font-medium text-gray-600 mb-2">Selected Ingredients:</h4>
-            <div className="flex flex-wrap gap-2 p-2 bg-gray-100 rounded-md">
-              {selectedItems.map((ingredient, index) => (
-                <IngredientElement
-                  key={index}
-                  ingredient={ingredient}
-                  checked={selectedItems.includes(ingredient)}
-                  onChangeHandler={() => handleSelectedItems(ingredient)}
-                />
-              ))}
-            </div>
+    {/* Searched Ingredients */}
+    {searchedIngBucket.length > 0 && (
+      <div className="flex flex-wrap gap-4 p-4 bg-gray-300 rounded-md shadow-md transition-all">
+        {loading ? (
+          <div className="w-full text-center py-6">
+            <div className="loader"></div>
           </div>
-        )}
-
-        {/* Searched Ingredients */}
-        {searchedIngBucket.length > 0 && (
-          <div className="flex flex-wrap gap-4 p-4 min-w-[calc(40rem)] bg-gray-300 rounded-md shadow-md transition-all">
-            {loading ? (
-              <div className="w-full text-center py-6">
-                <div className="loader"></div> {/* Add custom loader */}
-              </div>
-            ) : (
-              visibleSearchedIngredients.map((ingredient, index) => (
-                <IngredientElement
-                  key={index}
-                  ingredient={ingredient.ingredient_name}
-                  checked={selectedItems.includes(ingredient.ingredient_name)}
-                  onChangeHandler={() => handleSelectedItems(ingredient.ingredient_name)}
-                />
-              ))
-            )}
-          </div>
-        )}
-
-        {/* Ingredients List (Selected) */}
-        {searchedIngBucket.length === 0 && (
-          <div className="flex flex-wrap gap-4 p-4 min-w-[calc(40rem)] bg-gray-200 rounded-md shadow-md transition-all">
-            {visibleIngredients.map((ingredient, index) => (
-              <IngredientElement
-                key={index}
-                ingredient={ingredient.ingredient_name}
-                checked={selectedItems.includes(ingredient.ingredient_name)}
-                onChangeHandler={() => handleSelectedItems(ingredient.ingredient_name)}
-              />
-            ))}
-          </div>
+        ) : (
+          visibleSearchedIngredients.map((ingredient, index) => (
+            <IngredientElement
+              key={index}
+              ingredient={ingredient.ingredient_name}
+              checked={selectedItems.includes(ingredient.ingredient_name)}
+              onChangeHandler={() => handleSelectedItems(ingredient.ingredient_name)}
+            />
+          ))
         )}
       </div>
-    </div>
+    )}
+
+    {/* Ingredients List (Fallback) */}
+    {searchedIngBucket.length === 0 && (
+      <div className="flex flex-wrap gap-4 p-4 bg-gray-200 rounded-md shadow-md transition-all">
+        {visibleIngredients.map((ingredient, index) => (
+          <IngredientElement
+            key={index}
+            ingredient={ingredient.ingredient_name}
+            checked={selectedItems.includes(ingredient.ingredient_name)}
+            onChangeHandler={() => handleSelectedItems(ingredient.ingredient_name)}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
   );
 };
 
