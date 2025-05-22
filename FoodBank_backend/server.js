@@ -67,10 +67,13 @@
 
 
 
+
 const express = require('express');
 const dotenv = require('dotenv').config();
 const connectdb = require('./Config/mongoConnect');
+const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const cloudinary = require('./cloudinaryConfig');
 const path = require('path');
 
 const app = express();
@@ -78,7 +81,6 @@ const PORT = process.env.PORT || 5000;
 
 connectdb();
 
-// Middleware
 app.use(cors({
   origin: ['https://nofoodwaste-occn.onrender.com'],
   credentials: true,
@@ -89,21 +91,24 @@ app.options('*', cors());
 
 app.use(express.json());
 
-// ✅ API Routes come first
+// API routes first
 app.use('/recipe', require("./routes/recipe"));
 app.use('/user', require('./routes/user'));
 app.use('/ingredients', require('./routes/ingredients'));
 app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 
-// ✅ Serve frontend only after defining all API routes
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, '../foodbank_frontend/dist')));
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '../foodbank_frontend/dist', 'index.html'));
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+app.listen(PORT, (err) => {
+  if (err) console.error(err);
+  console.log(`Running on PORT ${PORT}`);
 });
 
 module.exports = app;
