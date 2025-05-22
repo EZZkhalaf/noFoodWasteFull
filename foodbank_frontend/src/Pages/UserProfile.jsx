@@ -433,7 +433,7 @@ const UserProfile = () => {
     <div className='flex flex-col md:flex-row items-center md:items-start justify-between w-full mt-8 gap-6'>
       
       {/* Left Section: Profile Picture and Info */}
-      <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-6 w-full">
+      <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-6 w-full sm:mt-7">
         {isEditing ? (
           <div className="flex flex-col md:flex-row items-center w-full">
             <div className="flex flex-col md:flex-row items-center w-full">

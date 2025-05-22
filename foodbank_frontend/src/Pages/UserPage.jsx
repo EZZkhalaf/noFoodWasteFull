@@ -255,7 +255,7 @@ const UserPage = () => {
     <NavBar />
     <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-4">
       {/* User Profile Section */}
-      <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+      <div className="flex flex-col md:flex-row items-center sm:mt-7 md:mt-7 md:items-start space-y-6 md:space-y-0 md:space-x-8">
         <img
           src={userProfilePic}
           alt={`${userPageOwner.username}'s profile`}
