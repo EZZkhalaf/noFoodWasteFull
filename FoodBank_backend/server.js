@@ -8,7 +8,7 @@ const cloudinary = require('./cloudinaryConfig')
 
 const app = express();
 const corsOption = {
-    origin: 'http://localhost:5173', // Allow only requests from this origin
+    origin: 'https://nofoodwaste-occn.onrender.com', // Allow only requests from this origin
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 }
 app.use(cors(corsOption))
