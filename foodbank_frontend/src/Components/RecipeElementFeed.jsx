@@ -62,7 +62,6 @@ const RecipeElementFeed = ({
 
         if (!response.ok) throw new Error(`Failed to fetch user data: ${response.statusText}`);
         const data = await response.json();
-        console.log(data)
         setRecipeOwner(data);
       } catch (error) {
         console.error("Error fetching user data:", error);

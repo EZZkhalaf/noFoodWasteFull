@@ -70,7 +70,7 @@ const searchIngredient = async(req,res)=>{
 
 const getFirst30 = async (req,res)=>{
     try {
-        const ingredients = await ingredient.find().limit(20);
+        const ingredients = await ingredient.find().skip(30).limit(20);
         return res.status(200).json(ingredients);
         
     } catch (error) {
