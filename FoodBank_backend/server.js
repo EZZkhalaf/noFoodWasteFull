@@ -65,6 +65,7 @@
 
 const express = require('express');
 const dotenv = require('dotenv').config();
+const path = require('path');
 const connectdb = require('./Config/mongoConnect');
 const cors = require('cors');
 const cloudinary = require('./cloudinaryConfig');
@@ -75,12 +76,12 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 connectdb();
 
-// CORS setup to allow requests from your frontend
+// CORS setup for your frontend origin
 app.use(cors({
-  origin: 'https://nofoodwaste-occn.onrender.com', // Your deployed frontend URL
+  origin: 'https://nofoodwaste-occn.onrender.com', // Your frontend URL
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.options('*', cors());
 
@@ -94,8 +95,17 @@ app.use('/user', require('./routes/user'));
 app.use('/ingredients', require('./routes/ingredients'));
 app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 
-// Fallback for unmatched routes (optional)
-app.use('*', (req, res) => {
+// Serve React frontend static files
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// For any other GET request that is NOT handled by API routes,
+// serve React's index.html file to let React Router handle the route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
+// Optional: 404 handler for other HTTP methods on unknown routes (not GET)
+app.use((req, res) => {
   res.status(404).json({ message: 'API route not found' });
 });
 
