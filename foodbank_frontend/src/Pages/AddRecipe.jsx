@@ -240,271 +240,336 @@ const AddRecipe = () => {
   );
   
 
-  return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100">
-      <NavBar />
-      <main className="flex-grow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-16">
-          <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden ring-2 ring-purple-200 ring-offset-2 p-10">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-purple-300 pb-2">
-              Add New Recipe
-            </h2>
+//   return (
+//     <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100">
+//       <NavBar />
+//       <main className="flex-grow">
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-16">
+//           <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden ring-2 ring-purple-200 ring-offset-2 p-10">
+//             <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-purple-300 pb-2">
+//               Add New Recipe
+//             </h2>
 
-            {error && (
-              <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md">
-                {error}
-              </div>
-            )}
-            {success && (
-              <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-md">
-                Recipe added successfully!
-              </div>
-            )}
+//             {error && (
+//               <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md">
+//                 {error}
+//               </div>
+//             )}
+//             {success && (
+//               <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-md">
+//                 Recipe added successfully!
+//               </div>
+//             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Title:
-                  </label>
-                  <input
-                    type="text"
-                    name="recipe_title"
-                    value={formData.recipe_title}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    required
-                  />
-                </div>
+//             <form onSubmit={handleSubmit} className="space-y-6">
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-1">
+//                     Title:
+//                   </label>
+//                   <input
+//                     type="text"
+//                     name="recipe_title"
+//                     value={formData.recipe_title}
+//                     onChange={handleInputChange}
+//                     className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+//                     required
+//                   />
+//                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Recipe Type:
-                  </label>
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    required
-                  >
-                    <option value="">Select type</option>
-                    <option value="Appetizer">Appetizer</option>
-                    <option value="Main Course">Main Course</option>
-                    <option value="Breakfast">Breakfast</option>
-                    <option value="Dessert">Dessert</option>
-                    <option value="Soup">Soup</option>
-                    <option value="Salad">Salad</option>
-                    <option value="Beverage">Beverage</option>
-                    <option value="Side Dish">Side Dish</option>
-                    <option value="Snack">Snack</option>
-                    <option value="Vegan">Vegan</option>
-                  </select>
-                </div>
-              </div>
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-1">
+//                     Recipe Type:
+//                   </label>
+//                   <select
+//                     name="type"
+//                     value={formData.type}
+//                     onChange={handleInputChange}
+//                     className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+//                     required
+//                   >
+//                     <option value="">Select type</option>
+//                     <option value="Appetizer">Appetizer</option>
+//                     <option value="Main Course">Main Course</option>
+//                     <option value="Breakfast">Breakfast</option>
+//                     <option value="Dessert">Dessert</option>
+//                     <option value="Soup">Soup</option>
+//                     <option value="Salad">Salad</option>
+//                     <option value="Beverage">Beverage</option>
+//                     <option value="Side Dish">Side Dish</option>
+//                     <option value="Snack">Snack</option>
+//                     <option value="Vegan">Vegan</option>
+//                   </select>
+//                 </div>
+//               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description:
-                  </label>
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-1">
+//                     Description:
+//                   </label>
 
-                  <textarea
-                    name="recipe_description"
-                    value={formData.recipe_description}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none resize-none h-32"
-                  />
-                </div>
+//                   <textarea
+//                     name="recipe_description"
+//                     value={formData.recipe_description}
+//                     onChange={handleInputChange}
+//                     className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none resize-none h-32"
+//                   />
+//                 </div>
 
-                <div>
-<div className="flex flex-col md:flex-row md:items-center justify-between">
-  <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-0">
-    Instructions:
-  </label>
-  <button
-    type="button"
-    onClick={improveInstructions}
-    className="
-      flex items-center 
-      text-xs sm:text-sm 
-      px-2 sm:px-3 
-      py-1 sm:py-1.5 
-      bg-gradient-to-r from-purple-500 to-blue-600 
-      text-white rounded-full 
-      hover:from-purple-600 hover:to-blue-700 
-      focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-purple-400
-      transition 
-    "
-  >
-    {isImproving
-      ? (
-        <div className="flex items-center gap-1">
-          <CircleLoader color="#fff" size={14} />
-          <span>Improving…</span>
-        </div>
-      )
-      : 'AI Improve ✨'
-    }
-  </button>
-</div>
-
-
-                  <textarea
-                    name="instructions"
-                    value={formData.instructions}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none resize-none h-32"
-                    required
-                  />
-                </div>
+//                 <div>
+// <div className="flex flex-col md:flex-row md:items-center justify-between">
+//   <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-0">
+//     Instructions:
+//   </label>
+//   <button
+//     type="button"
+//     onClick={improveInstructions}
+//     className="
+//       flex items-center 
+//       text-xs sm:text-sm 
+//       px-2 sm:px-3 
+//       py-1 sm:py-1.5 
+//       bg-gradient-to-r from-purple-500 to-blue-600 
+//       text-white rounded-full 
+//       hover:from-purple-600 hover:to-blue-700 
+//       focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-purple-400
+//       transition 
+//     "
+//   >
+//     {isImproving
+//       ? (
+//         <div className="flex items-center gap-1">
+//           <CircleLoader color="#fff" size={14} />
+//           <span>Improving…</span>
+//         </div>
+//       )
+//       : 'AI Improve ✨'
+//     }
+//   </button>
+// </div>
 
 
+//                   <textarea
+//                     name="instructions"
+//                     value={formData.instructions}
+//                     onChange={handleInputChange}
+//                     className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none resize-none h-32"
+//                     required
+//                   />
+//                 </div>
 
 
-              </div>
 
-              <div className="mt-6 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8 rounded-2xl">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  Ingredients
-                </h3>
 
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={ingredientQuery}
-                    onChange={(e) => setIngredientQuery(e.target.value)}
-                    placeholder="Search for ingredients..."
-                    className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none mb-4"
-                  />
+//               </div>
 
-                  {suggestedIngredients.length > 0 && (
-                    <div className="absolute w-full z-10 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                      {suggestedIngredients.map((ing) => (
-                        <div
-                          key={ing.ingredient_name}
-                          className="px-4 py-3 cursor-pointer hover:bg-gray-50"
-                          onClick={() => addSuggestedIngredient(ing)}
-                        >
-                          {ing.ingredient_name}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+//               <div className="mt-6 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8 rounded-2xl">
+//                 <h3 className="text-xl font-semibold text-gray-800 mb-4">
+//                   Ingredients
+//                 </h3>
 
-                {formData.ingredients.map((ingredient, index) => (
-               <div
-               key={index}
-               className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-5 bg-white rounded-2xl shadow-md border border-gray-200 mb-4"
-             >
-               <span className="min-w-[120px] px-4 py-2 text-center rounded-full bg-violet-100 text-violet-700 text-sm font-semibold shadow-sm">
-                 {ingredient.name}
-               </span>
+//                 <div className="relative">
+//                   <input
+//                     type="text"
+//                     value={ingredientQuery}
+//                     onChange={(e) => setIngredientQuery(e.target.value)}
+//                     placeholder="Search for ingredients..."
+//                     className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none mb-4"
+//                   />
+
+//                   {suggestedIngredients.length > 0 && (
+//                     <div className="absolute w-full z-10 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
+//                       {suggestedIngredients.map((ing) => (
+//                         <div
+//                           key={ing.ingredient_name}
+//                           className="px-4 py-3 cursor-pointer hover:bg-gray-50"
+//                           onClick={() => addSuggestedIngredient(ing)}
+//                         >
+//                           {ing.ingredient_name}
+//                         </div>
+//                       ))}
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 {formData.ingredients.map((ingredient, index) => (
+//                <div
+//                key={index}
+//                className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-5 bg-white rounded-2xl shadow-md border border-gray-200 mb-4"
+//              >
+//                <span className="min-w-[120px] px-4 py-2 text-center rounded-full bg-violet-100 text-violet-700 text-sm font-semibold shadow-sm">
+//                  {ingredient.name}
+//                </span>
              
-               <input
-                 type="text"
-                 name="quantity"
-                 value={ingredient.quantity}
-                 onChange={(e) => handleIngredientChange(index, e)}
-                 placeholder="Quantity"
-                 className="flex-1 min-w-[100px] px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500 transition"
-                 required
-               />
+//                <input
+//                  type="text"
+//                  name="quantity"
+//                  value={ingredient.quantity}
+//                  onChange={(e) => handleIngredientChange(index, e)}
+//                  placeholder="Quantity"
+//                  className="flex-1 min-w-[100px] px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500 transition"
+//                  required
+//                />
              
-               <span className="min-w-[80px] px-4 py-2 text-center rounded-full bg-violet-100 text-violet-700 text-sm font-semibold shadow-sm">
-                 {ingredient.unit || 'Unit'}
-               </span>
+//                <span className="min-w-[80px] px-4 py-2 text-center rounded-full bg-violet-100 text-violet-700 text-sm font-semibold shadow-sm">
+//                  {ingredient.unit || 'Unit'}
+//                </span>
              
-               {formData.ingredients.length > 0 && (
-                 <button
-                   type="button"
-                   onClick={() => removeIngredient(index)}
-                   className="mt-2 md:mt-0 text-sm text-red-500 hover:text-white hover:bg-red-500 border border-red-400 px-4 py-2 rounded-lg transition-colors duration-200"
-                 >
-                   Remove
-                 </button>
-               )}
-             </div>
+//                {formData.ingredients.length > 0 && (
+//                  <button
+//                    type="button"
+//                    onClick={() => removeIngredient(index)}
+//                    className="mt-2 md:mt-0 text-sm text-red-500 hover:text-white hover:bg-red-500 border border-red-400 px-4 py-2 rounded-lg transition-colors duration-200"
+//                  >
+//                    Remove
+//                  </button>
+//                )}
+//              </div>
              
               
-                ))}
+//                 ))}
 
-                {/* <button
-                  type="button"
-                  onClick={addIngredient}
-                  className="mt-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-600 text-white rounded-md hover:from-purple-600 hover:to-blue-700 transition-all duration-300 ease-in-out"
-                >
-                  Add Ingredient
-                </button> */}
-              </div>
+//                 {/* <button
+//                   type="button"
+//                   onClick={addIngredient}
+//                   className="mt-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-600 text-white rounded-md hover:from-purple-600 hover:to-blue-700 transition-all duration-300 ease-in-out"
+//                 >
+//                   Add Ingredient
+//                 </button> */}
+//               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Image:
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="text"
-                      name="recipe_image"
-                      value={formData.recipe_image}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                      placeholder="Or enter image URL"
-                      style={{ flex: 3 }} 
-                    />
-                    <label className="cursor-pointer px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-600 text-white rounded-md">
-                      Upload
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div>
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-1">
+//                     Image:
+//                   </label>
+//                   <div className="flex items-center space-x-2">
+//                     <input
+//                       type="text"
+//                       name="recipe_image"
+//                       value={formData.recipe_image}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+//                       placeholder="Or enter image URL"
+//                       style={{ flex: 3 }} 
+//                     />
+//                     <label className="cursor-pointer px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-600 text-white rounded-md">
+//                       Upload
+//                       <input
+//                         type="file"
+//                         accept="image/*"
+//                         onChange={handleFileChange}
+//                         className="hidden"
+//                       />
+//                     </label>
+//                   </div>
+//                 </div>
+//               </div>
 
-              {previewImage && (
-                <div
-                  className="mt-4 cursor-pointer"
-                  onClick={() => setIsImageExpanded(!isImageExpanded)}
-                >
-                  {isImageExpanded ? (
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      className="max-h-[80vh] max-w-[80vw] object-cover rounded-xl shadow-lg mx-auto block"
-                    />
-                  ) : (
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      className="w-64 h-48 object-cover rounded-xl shadow-md"
-                    />
-                  )}
-                </div>
-              )}
+//               {previewImage && (
+//                 <div
+//                   className="mt-4 cursor-pointer"
+//                   onClick={() => setIsImageExpanded(!isImageExpanded)}
+//                 >
+//                   {isImageExpanded ? (
+//                     <img
+//                       src={previewImage}
+//                       alt="Preview"
+//                       className="max-h-[80vh] max-w-[80vw] object-cover rounded-xl shadow-lg mx-auto block"
+//                     />
+//                   ) : (
+//                     <img
+//                       src={previewImage}
+//                       alt="Preview"
+//                       className="w-64 h-48 object-cover rounded-xl shadow-md"
+//                     />
+//                   )}
+//                 </div>
+//               )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full px-6 py-3 mt-6 rounded-full ${loading
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-purple-500 to-blue-600 text-white'
-                }`}
-              >
-                {loading ? 'Submitting...' : 'Submit Recipe'}
-              </button>
-            </form>
+//               <button
+//                 type="submit"
+//                 disabled={loading}
+//                 className={`w-full px-6 py-3 mt-6 rounded-full ${loading
+//                   ? 'bg-gray-400 cursor-not-allowed'
+//                   : 'bg-gradient-to-r from-purple-500 to-blue-600 text-white'
+//                 }`}
+//               >
+//                 {loading ? 'Submitting...' : 'Submit Recipe'}
+//               </button>
+//             </form>
+//           </div>
+//         </div>
+//       </main>
+//       <Footer />
+//     </div>
+//   );
+<div className="mt-6 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-6 sm:p-8 rounded-2xl">
+  <h3 className="text-xl font-semibold text-gray-800 mb-4">
+    Ingredients
+  </h3>
+
+  <div className="relative">
+    <input
+      type="text"
+      value={ingredientQuery}
+      onChange={(e) => setIngredientQuery(e.target.value)}
+      placeholder="Search for ingredients..."
+      className="w-full px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:outline-none mb-4"
+    />
+
+    {suggestedIngredients.length > 0 && (
+      <div className="absolute w-full z-10 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
+        {suggestedIngredients.map((ing) => (
+          <div
+            key={ing.ingredient_name}
+            className="px-4 py-3 cursor-pointer hover:bg-gray-50"
+            onClick={() => addSuggestedIngredient(ing)}
+          >
+            {ing.ingredient_name}
           </div>
-        </div>
-      </main>
-      <Footer />
+        ))}
+      </div>
+    )}
+  </div>
+
+  {formData.ingredients.map((ingredient, index) => (
+    <div
+      key={index}
+      className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 bg-white rounded-2xl shadow-md border border-gray-200 mb-4"
+    >
+      <span className="w-full sm:w-auto text-center px-4 py-2 rounded-full bg-violet-100 text-violet-700 text-sm font-semibold shadow-sm">
+        {ingredient.name}
+      </span>
+
+      <input
+        type="text"
+        name="quantity"
+        value={ingredient.quantity}
+        onChange={(e) => handleIngredientChange(index, e)}
+        placeholder="Quantity"
+        className="flex-1 w-full sm:min-w-[100px] px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500 transition"
+        required
+      />
+
+      <span className="w-full sm:w-auto text-center px-4 py-2 rounded-full bg-violet-100 text-violet-700 text-sm font-semibold shadow-sm">
+        {ingredient.unit || 'Unit'}
+      </span>
+
+      {formData.ingredients.length > 0 && (
+        <button
+          type="button"
+          onClick={() => removeIngredient(index)}
+          className="w-full sm:w-auto text-sm text-red-500 hover:text-white hover:bg-red-500 border border-red-400 px-4 py-2 rounded-lg transition-colors duration-200"
+        >
+          Remove
+        </button>
+      )}
     </div>
-  );
+  ))}
+</div>
+
 };
 
 export default AddRecipe;
