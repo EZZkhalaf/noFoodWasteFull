@@ -75,14 +75,27 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 connectdb();
 
-// CORS setup for your frontend URL
+const allowedOrigins = [
+  'https://nofoodwaste-occn.onrender.com',
+  'http://localhost:5173'
+];
+
 app.use(cors({
-  origin: 'https://nofoodwaste-occn.onrender.com', // your deployed frontend URL
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  methods: ['get', 'post', 'put', 'delete'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
 app.options('*', cors());
+
 
 // Body parsers
 app.use(express.json({ limit: '10mb' }));
