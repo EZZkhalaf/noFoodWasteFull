@@ -19,12 +19,12 @@ const UserFollowModal = ({ users: userIds, onClose, title = "Users" }) => {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userIds }), // send the IDs
+            body: JSON.stringify({ userIds }), 
           }
         );
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
-        setProfiles(data);   // 2️⃣ store them
+        setProfiles(data);   
       } catch (error) {
         console.error("Failed to load users:", error);
       }finally{
@@ -35,7 +35,6 @@ const UserFollowModal = ({ users: userIds, onClose, title = "Users" }) => {
     getTheUsersData();
   }, []); // runs once on mount/open
 
-  console.log(profiles)
 
 
   return (
@@ -53,13 +52,13 @@ const UserFollowModal = ({ users: userIds, onClose, title = "Users" }) => {
             <ThreeDot color={["#32cd32", "#327fcd", "#cd32cd", "#cd8032"]} />
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-7">
             {profiles.length > 0 ? (
               profiles.map((u) => (
                 <Link
                     to={`/userPage/${u._id}`}
                     >
-                    <div key={u._id} className="flex items-center gap-4">
+                    <div key={u._id} className="flex items-center gap-7 mb-4 bg-gray-200 rounded-se-full">
                     <img
                         src={
                             u.profilePic?.startsWith("data:image/") || 
