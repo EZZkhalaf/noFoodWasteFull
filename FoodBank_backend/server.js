@@ -82,7 +82,7 @@ app.use(express.static(frontendPath));
 
 // For any GET request not handled by the API, serve React index.html (client-side routing)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
+  res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
 });
 
 // Start the server
