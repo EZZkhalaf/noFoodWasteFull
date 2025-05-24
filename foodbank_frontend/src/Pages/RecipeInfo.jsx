@@ -10,7 +10,7 @@ import { useAuthContext } from "../Context/AuthContext";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { CircleLoader } from 'react-spinners';
 import { ImproveAction } from "@cloudinary/url-gen/actions/adjust/ImproveAction";
-import { ThreeDot } from "react-loading-indicators";
+import { OrbitProgress, ThreeDot } from "react-loading-indicators";
 import { CiBookmarkPlus } from "react-icons/ci";
 import { IoMdBookmark } from "react-icons/io";
 import defaultPhoto from '../assets/defaultPhoto.png';
