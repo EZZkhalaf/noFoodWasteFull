@@ -124,16 +124,20 @@ app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 // Serve React frontend static files from foodbank_frontend/build
 app.use(express.static(path.join(__dirname, 'foodbank_frontend/build')));
 
+app.use((req, res) => {
+  res.status(404).json({ message: 'API route not found' });
+});
 // For any other GET requests not handled by API routes,
 // send back React's index.html to allow client-side routing
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
+// });
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
 });
 
 // 404 handler for other HTTP methods on unknown routes (optional)
-app.use((req, res) => {
-  res.status(404).json({ message: 'API route not found' });
-});
 
 // Start server
 app.listen(PORT, () => {
