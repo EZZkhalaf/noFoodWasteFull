@@ -76,15 +76,14 @@ const PORT = process.env.PORT || 5000;
 connectdb();
 
 const allowedOrigins = [
-  'https://nofoodwaste-occn.onrender.com',
   'http://localhost:5173',
-    'https://nofoodwastefull.onrender.com' // ADD THIS if frontend is deployed here too
-
+  'https://nofoodwaste-occn.onrender.com',   // your frontend (maybe old)
+  'https://nofoodwastefull.onrender.com'     // your current frontend URL
 ];
+
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -95,6 +94,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
 
 app.options('*', cors());
 
