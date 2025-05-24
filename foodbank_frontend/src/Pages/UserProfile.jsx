@@ -335,7 +335,7 @@ const UserProfile = () => {
       </div>
 
       {/* Right Section: Settings Button */}
-      <div className="flex justify-end w-full md:w-auto">
+      <div className="flex justify-end w-full md:w-auto items-center ">
         <button
           onClick={() => setIsEditing(!isEditing)}
           className="p-3 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 focus:outline-none"
