@@ -119,7 +119,10 @@ const RecipeInfo = () => {
       formData.append('newRecipe_image', newRecipeImage); // File object
 
 
-      const response = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}`, {method: 'post', body: formData});
+      const response = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}`, {
+        method: 'post',
+        body: formData
+      });
 
       // if (!response.ok) throw new Error('Failed to update recipe');
       const updatedRecipe = await response.json();
@@ -135,6 +138,7 @@ const RecipeInfo = () => {
     setIsEditing(false);
     // Reset to original values
     if (recipe) {
+      setNewRecipeImage(recipe.recipe_image);
       setNewRecipeTitle(recipe.recipe_title || '');
       setNewIngredients(recipe.ingredients || []);
       setNewInstruction(recipe.instructions || '');
