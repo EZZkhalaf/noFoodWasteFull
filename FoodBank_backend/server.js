@@ -94,12 +94,20 @@ const allowedOrigins = [
 //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 // }));
+app.use((req, res, next) => {
+  console.log('Request Origin:', req.headers.origin);
+  next();
+});
+
 app.use(cors({
   origin: function (origin, callback) {
-    callback(null, origin); // Reflect the request origin
+    if (!origin) return callback(null, true);
+    console.log('Allowing origin:', origin);
+    callback(null, origin);
   },
-  credentials: true
+  credentials: true,
 }));
+
 // app.options('*', cors());
 
 
