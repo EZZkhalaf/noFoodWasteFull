@@ -79,7 +79,7 @@ connectdb();
 app.use(cors({
   origin: 'https://nofoodwaste-occn.onrender.com', // your deployed frontend URL
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['get', 'post', 'put', 'delete'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.options('*', cors());

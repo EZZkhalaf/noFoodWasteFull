@@ -108,7 +108,7 @@ const AddRecipe = () => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       fetchSuggestedIngredients(ingredientQuery);
-      console.log(formData.ingredients)
+      // console.log(formData.ingredients)
     }, 300);
     return () => clearTimeout(delayDebounceFn);
   }, [ingredientQuery]);
@@ -126,7 +126,7 @@ const AddRecipe = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(formData)
+    // console.log(formData)
     e.preventDefault();
     setError('');
     setSuccess(false);

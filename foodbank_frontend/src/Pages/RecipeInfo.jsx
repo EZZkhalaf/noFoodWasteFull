@@ -55,7 +55,7 @@ const RecipeInfo = () => {
 
       if (!response.ok) throw new Error('Request failed');
       const data = await response.json();
-      console.log(data)
+      // console.log(data)
       setIsBookmarked(data === 'saved');
     };
     checkBookmark();
@@ -265,7 +265,7 @@ const RecipeInfo = () => {
         
 
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         setNewInstruction(data);
       } catch (error) {
           console.log(error)
