@@ -258,106 +258,100 @@ const UserProfile = () => {
   );
 
   return (
- 
-
-    <div className='flex flex-col min-h-screen bg-sand-50 w-full'>
-  <div className='bg-white rounded-xl w-full p-4 sm:p-6 md:p-8'>
+ <div className="flex flex-col min-h-screen bg-sand-50 w-full">
+  <div className="bg-white rounded-xl w-full p-4 sm:p-6 md:p-8">
     <ProfileNavBar />
 
     {/* Profile Section */}
-    <div className='flex flex-col md:flex-row items-center md:items-start justify-between w-full mt-8 gap-6'>
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-between w-full mt-8 gap-6">
       
       {/* Left Section: Profile Picture and Info */}
-<div className="flex flex-col md:flex-row items-center md:items-start md:space-x-6 w-full sm:mt-7">
-  {isEditing ? (
-    <div className="flex flex-col md:flex-row items-center w-full">
-      <div className="flex flex-col md:flex-row items-center w-full">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleProfilePicChange}
-          ref={fileInputRef}
-          className="hidden"
-        />
-        <img
-          src={previewImage || defaultPhoto}
-          alt="Profile"
-          className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-lg cursor-pointer mb-4 md:mb-0"
-          onClick={() => fileInputRef.current.click()}
-          onError={(e) => {
-            e.target.src = defaultPhoto;
-          }}
-        />
-        <div className='flex flex-col w-full md:w-auto'>
-          <div className="bg-gray-300 m-2 p-2 rounded-md hover:bg-gray-400 transition w-full sm:w-auto">
-            <input
-              type="text"
-              value={profileUsername}
-              placeholder="Enter username"
-              onChange={(e) => setProfileUsername(e.target.value)}
-              className="w-full bg-transparent p-2 focus:outline-none"
-            />
+      <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-6 w-full sm:mt-7">
+        {isEditing ? (
+          <div className="flex flex-col md:flex-row items-center w-full">
+            <div className="flex flex-col md:flex-row items-center w-full">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleProfilePicChange}
+                ref={fileInputRef}
+                className="hidden"
+              />
+              <img
+                src={previewImage || defaultPhoto}
+                alt="Profile"
+                className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-lg cursor-pointer mb-4 md:mb-0"
+                onClick={() => fileInputRef.current.click()}
+                onError={(e) => { e.target.src = defaultPhoto; }}
+              />
+              <div className="flex flex-col w-full md:w-auto">
+                <div className="bg-gray-300 m-2 p-2 rounded-md hover:bg-gray-400 transition w-full sm:w-auto">
+                  <input
+                    type="text"
+                    value={profileUsername}
+                    placeholder="Enter username"
+                    onChange={(e) => setProfileUsername(e.target.value)}
+                    className="w-full bg-transparent p-2 focus:outline-none"
+                  />
+                </div>
+                <div className="bg-gray-300 m-2 p-2 rounded-md hover:bg-gray-400 transition w-full sm:w-auto">
+                  <input
+                    type="text"
+                    value={profileBio}
+                    placeholder="Enter your bio"
+                    onChange={(e) => setProfileBio(e.target.value)}
+                    className="w-full bg-transparent p-2 focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md m-3 hover:bg-green-600 transition-all self-center md:self-auto"
+              onClick={editUser}
+            >
+              Submit
+            </button>
           </div>
-          <div className="bg-gray-300 m-2 p-2 rounded-md hover:bg-gray-400 transition w-full sm:w-auto">
-            <input
-              type="text"
-              value={profileBio}
-              placeholder="Enter your bio"
-              onChange={(e) => setProfileBio(e.target.value)}
-              className="w-full bg-transparent p-2 focus:outline-none"
+        ) : (
+          <div className="flex flex-col sm:flex-row text-center sm:text-left items-center">
+            <img
+              src={getProfileImage()}
+              alt={`${profileUsername}'s profile`}
+              className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-lg mb-4 sm:mb-0"
+              onError={(e) => { e.target.src = defaultPhoto; }}
             />
+            <div className="flex flex-col items-center sm:items-start justify-center sm:ml-4">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{profileUsername}</h1>
+              <p className="text-gray-600 mt-2">{profileBio}</p>
+            </div>
           </div>
+        )}
+
+        {/* Right Section: Settings Button */}
+        <div className="flex justify-center md:justify-end w-full md:w-auto items-center mt-4 md:mt-0 md:ml-auto">
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-opacity-75"
+          >
+            <IoMdSettings size={18} />
+          </button>
         </div>
       </div>
-      <button
-        className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md m-3 hover:bg-green-600 transition-all self-center md:self-auto"
-        onClick={editUser}
-      >
-        Submit
-      </button>
     </div>
-  ) : (
-    <div className='flex flex-col sm:flex-row text-center sm:text-left items-center'>
-      <img
-        src={getProfileImage()}
-        alt={`${profileUsername}'s profile`}
-        className='w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-lg mb-4 sm:mb-0'
-        onError={(e) => {
-          e.target.src = defaultPhoto;
-        }}
-      />
-      <div className='flex flex-col items-center sm:items-start justify-center sm:ml-4'>
-        <h1 className='text-2xl sm:text-3xl font-bold text-gray-800'>{profileUsername}</h1>
-        <p className='text-gray-600 mt-2'>{profileBio}</p>
-      </div>
-    </div>
-  )}
-
-  {/* Right Section: Settings Button */}
-  <div className="flex justify-center md:justify-end w-full md:w-auto items-center mt-4 md:mt-0 md:ml-auto">
-    <button
-      onClick={() => setIsEditing(!isEditing)}
-      className="px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-opacity-75"
-    >
-      <IoMdSettings size={18} />
-    </button>
-  </div>
-</div>
-
 
     {/* Social Stats */}
-    <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 text-center'>
-      <div onClick={handleShowFollowers} className='p-4 bg-gray-50 rounded-lg'>
-        <p className='text-xl font-bold text-gray-800'>{followers?.length || 0}</p>
-        <p className='text-gray-600'>Followers</p>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 text-center">
+      <div onClick={handleShowFollowers} className="p-4 bg-gray-50 rounded-lg cursor-pointer">
+        <p className="text-xl font-bold text-gray-800">{followers?.length || 0}</p>
+        <p className="text-gray-600">Followers</p>
       </div>
-      <div onClick={handleShowFollowing} className='p-4 bg-gray-50 rounded-lg'>
-        <p className='text-xl font-bold text-gray-800'>{following?.length || 0}</p>
-        <p className='text-gray-600'>Following</p>
+      <div onClick={handleShowFollowing} className="p-4 bg-gray-50 rounded-lg cursor-pointer">
+        <p className="text-xl font-bold text-gray-800">{following?.length || 0}</p>
+        <p className="text-gray-600">Following</p>
       </div>
-      <div className='p-4 bg-gray-50 rounded-lg'>
-        <p className='text-xl font-bold text-gray-800'>{recipes?.length || 0}</p>
-        <p className='text-gray-600'>Recipes</p>
+      <div className="p-4 bg-gray-50 rounded-lg">
+        <p className="text-xl font-bold text-gray-800">{recipes?.length || 0}</p>
+        <p className="text-gray-600">Recipes</p>
       </div>
     </div>
 
@@ -370,26 +364,26 @@ const UserProfile = () => {
     )}
 
     {/* Divider */}
-    <div className='flex justify-center items-center mt-10'>
+    <div className="flex justify-center items-center mt-10">
       <div className="w-full sm:w-[40vw] border-t-2 border-sand-200"></div>
     </div>
 
     {/* Recipes Section */}
-    <div className='mt-12'>
-      <div className='flex flex-col sm:flex-row justify-between items-center gap-4 mb-6'>
-        <h2 className='text-2xl font-bold text-gray-800'>Recipes</h2>
+    <div className="mt-12">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Recipes</h2>
         <button
           onClick={() => navigate('/addRecipe')}
-          className='w-full sm:w-auto px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600'
+          className="w-full sm:w-auto px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
         >
           Create Recipe
         </button>
       </div>
 
       {/* Own Recipes */}
-      <div className='mb-8'>
-        <h3 className='text-xl font-semibold text-gray-700 mb-4'>My Recipes</h3>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">My Recipes</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {currentRecipes.length > 0 ? (
             currentRecipes.map((recipe) => (
               <ProfileRecipeElement
@@ -404,7 +398,7 @@ const UserProfile = () => {
               />
             ))
           ) : (
-            <p className='text-gray-600'>No recipes created yet.</p>
+            <p className="text-gray-600">No recipes created yet.</p>
           )}
         </div>
 
@@ -422,6 +416,7 @@ const UserProfile = () => {
 
   <Footer />
 </div>
+
 
   );
 };
