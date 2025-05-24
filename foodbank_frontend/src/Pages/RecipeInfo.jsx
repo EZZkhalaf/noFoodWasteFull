@@ -493,22 +493,18 @@ const RecipeInfo = () => {
                  
 
                   <button 
-                    className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-red-500
-                    text-white rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transform-gpu 
-                    duration-300"
+                    className="relative px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-red-500
+                              text-white rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl 
+                              transform-gpu duration-300 flex items-center justify-center w-[100px] sm:w-[120px] h-[40px] sm:h-[44px]"
                     onClick={deleteRecipe}
-                    >
-                      {isDeleting ? (
-                        <div>
-                          <OrbitProgress color="#32cd32" size="medium" text="deleting" textColor="" />
-                          </div>
-                      ):(
-                        <div>
-                          delete
-                        </div>
-                      )}
-                        
+                  >
+                    {isDeleting ? (
+                      <OrbitProgress color="#fff" size="small" text=" " />
+                    ) : (
+                      "Delete"
+                    )}
                   </button>
+
                   
                 
               ):(<div></div>)}
