@@ -165,6 +165,7 @@ const RecipeInfo = () => {
   
 
   const deleteRecipe = async() =>{
+    setIsDeleting(true);
     try {
       const response = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}` ,{
         method:"delete",
@@ -179,6 +180,8 @@ const RecipeInfo = () => {
       if(data.success) navigate(`/userprofile/${user._id}`)
     } catch (error) {
       console.log(error)
+    }finally{
+      setIsDeleting(false);
     }
   }
 
@@ -411,7 +414,7 @@ const RecipeInfo = () => {
                     type="text"
                     value={newRecipeTitle}
                     onChange={(e) => setNewRecipeTitle(e.target.value)}
-                    className="w-[20vw] bg-transparent text-xl sm:text-2xl md:text-4xl font-bold z-10 text-white outline-none w-full"
+                    className="w-full bg-transparent text-xl sm:text-2xl md:text-4xl font-bold z-10 text-white outline-none "
                     placeholder="Enter the name  "
                   />
                 ) : (
@@ -485,14 +488,27 @@ const RecipeInfo = () => {
                   {recipe.Bookmarks?.length || 0} bookmarks
                 </span>
               {isRecipeOwner && !isEditing ? (
-                <button 
-                  className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-red-500
-                   text-white rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transform-gpu 
-                   duration-300"
-                  onClick={deleteRecipe}
-                   >
-                      delete
-                </button>
+               
+
+                 
+
+                  <button 
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-red-500
+                    text-white rounded-full shadow-lg hover:bg-red-600 hover:shadow-xl transform-gpu 
+                    duration-300"
+                    onClick={deleteRecipe}
+                    >
+                      {isDeleting ? (
+                        <div><OrbitProgress color="#32cd32" size="medium" text="deleting" textColor="" /></div>
+                      ):(
+                        <div>
+                          delete
+                        </div>
+                      )}
+                        
+                  </button>
+                  
+                
               ):(<div></div>)}
               </div>
             </div>

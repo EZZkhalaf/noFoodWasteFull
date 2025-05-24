@@ -338,8 +338,9 @@ const UserProfile = () => {
       <div className="flex justify-end w-full md:w-auto items-center ">
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="p-3 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 focus:outline-none"
-        >
+          // className="p-3 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 focus:outline-none"
+          className="mt-4 md:mt-0 px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-opacity-75 self-center md:self-auto"
+          >
           <IoMdSettings size={18} />
         </button>
       </div>
