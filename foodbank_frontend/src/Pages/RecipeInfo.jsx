@@ -40,7 +40,15 @@ const RecipeInfo = () => {
   const fileInputRef = useRef(null);
 
   const [isImproving , setIsImproving ] = useState(false)
-// 
+
+  
+
+  const isBase64Image = (str) => {
+  return typeof str === 'string' && str.startsWith('data:image/');
+}
+
+  const [newRecipeImage, setNewRecipeImage] = useState(defaultRecipeImage);
+
   // Check if recipe is bookmarked
   useEffect(() => {
     const checkBookmark = async () => {
@@ -75,7 +83,8 @@ const RecipeInfo = () => {
         if (!recipeResponse.ok) throw new Error("Failed to fetch the recipe");
         const recipeData = await recipeResponse.json();
         setRecipe(recipeData);
-
+        // const  initialImage = isBase64Image(recipe.recipe_image) ? recipeData.recipe_image : defaultRecipeImage;
+        // setNewRecipeImage(initialImage)
         const userResponse = await fetch('https://nofoodwastefull.onrender.com/user/getUserById', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -99,7 +108,7 @@ const RecipeInfo = () => {
   const [recipeOwner] = recipe?.recipe_user || [];
   const isRecipeOwner = user && recipe && user._id === recipeOwner;
 
-  const [newRecipeImage, setNewRecipeImage] = useState(defaultRecipeImage);
+
   
   
   // Save edited recipe
@@ -499,10 +508,13 @@ const RecipeInfo = () => {
                     onClick={deleteRecipe}
                   >
                     {isDeleting ? (
-                      <OrbitProgress color="#fff" size="small" text=" " />
-                    ) : (
-                      "Delete"
-                    )}
+                    <div className="scale-40">
+
+                        <OrbitProgress color="#fff" size="medium" text=" " />
+                      </div>
+                      ) : (
+                        "Delete"
+                      )}
                   </button>
 
                   
@@ -524,15 +536,15 @@ const RecipeInfo = () => {
                 >
                   <div className="relative -mt-12 xs:-mt-0">
                     <div className="w-20 sm:w-24 h-20 sm:h-24 rounded-2xl rotate-45 overflow-hidden border-4 border-white shadow-lg">
-<img
-  src={
-    recipeUser.profilePic?.startsWith('data:image/')
-      ? recipeUser.profilePic
-      : defaultPhoto
-  }
-  alt="User avatar"
-  className="w-full h-full object-cover -rotate-45 scale-125"
-/>
+                      <img
+                        src={
+                          recipeUser.profilePic?.startsWith('data:image/')
+                            ? recipeUser.profilePic
+                            : defaultPhoto
+                        }
+                        alt="User avatar"
+                        className="w-full h-full object-cover -rotate-45 scale-125"
+                      />
 
                     </div>
    

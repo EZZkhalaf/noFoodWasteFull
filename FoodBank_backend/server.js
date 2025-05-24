@@ -63,23 +63,23 @@
 // |   └──POST /users/:id/shopping-list - Add ingredients to a shopping list(ot added yet)
 
 
-const express = require('express');
-const dotenv = require('dotenv').config();
-const path = require('path');
-const connectdb = require('./Config/mongoConnect');
-const cors = require('cors');
+// const express = require('express');
+// const dotenv = require('dotenv').config();
+// const path = require('path');
+// const connectdb = require('./Config/mongoConnect');
+// const cors = require('cors');
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+// const app = express();
+// const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectdb();
+// // Connect to MongoDB
+// connectdb();
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://nofoodwaste-occn.onrender.com',   // your frontend (maybe old)
-  'https://nofoodwastefull.onrender.com'     // your current frontend URL
-];
+// const allowedOrigins = [
+//   'http://localhost:5173',
+//   'https://nofoodwaste-occn.onrender.com',   // your frontend (maybe old)
+//   'https://nofoodwastefull.onrender.com'     // your current frontend URL
+// ];
 
 
 // app.use(cors({
@@ -94,22 +94,89 @@ const allowedOrigins = [
 //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 // }));
-app.use((req, res, next) => {
-  console.log('Request Origin:', req.headers.origin);
-  next();
-});
+// // app.use((req, res, next) => {
+// //   console.log('Request Origin:', req.headers.origin);
+// //   next();
+// // });
+
+// // app.use(cors({
+// //   origin: function (origin, callback) {
+// //     if (!origin) return callback(null, true);
+// //     console.log('Allowing origin:', origin);
+// //     callback(null, origin);
+// //   },
+// //   credentials: true,
+// // }));
+
+// // app.options('*', cors());
+
+
+// // Body parsers
+// app.use(express.json({ limit: '10mb' }));
+// app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// // API Routes
+// app.use('/recipe', require('./routes/recipe'));
+// app.use('/user', require('./routes/user'));
+// app.use('/ingredients', require('./routes/ingredients'));
+// app.use('/apiDeepseek', require('./routes/apiDeepseek'));
+
+// // Serve React frontend static files from foodbank_frontend/build
+// app.use(express.static(path.join(__dirname, 'foodbank_frontend/build')));
+
+// app.use((req, res) => {
+//   res.status(404).json({ message: 'API route not found' });
+// });
+// // For any other GET requests not handled by API routes,
+// // send back React's index.html to allow client-side routing
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
+// });
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
+// });
+
+// // 404 handler for other HTTP methods on unknown routes (optional)
+
+// // Start server
+// app.listen(PORT, () => {
+//   console.log(`✅ Server running on port ${PORT}`);
+// });
+
+
+
+
+const express = require('express');
+const dotenv = require('dotenv').config();
+const path = require('path');
+const connectdb = require('./Config/mongoConnect');
+const cors = require('cors');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Connect to MongoDB
+connectdb();
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://nofoodwaste-occn.onrender.com',   // old frontend maybe
+  'https://nofoodwastefull.onrender.com'     // current frontend URL
+];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    console.log('Allowing origin:', origin);
-    callback(null, origin);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-
-// app.options('*', cors());
-
 
 // Body parsers
 app.use(express.json({ limit: '10mb' }));
@@ -121,26 +188,24 @@ app.use('/user', require('./routes/user'));
 app.use('/ingredients', require('./routes/ingredients'));
 app.use('/apiDeepseek', require('./routes/apiDeepseek'));
 
-// Serve React frontend static files from foodbank_frontend/build
+// 404 handler for unknown API routes ONLY
+app.use((req, res, next) => {
+  const apiPrefixes = ['/recipe', '/user', '/ingredients', '/apiDeepseek'];
+  if (apiPrefixes.some(prefix => req.path.startsWith(prefix))) {
+    return res.status(404).json({ message: 'API route not found' });
+  }
+  next();
+});
+
+// Serve React frontend static files
 app.use(express.static(path.join(__dirname, 'foodbank_frontend/build')));
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'API route not found' });
-});
-// For any other GET requests not handled by API routes,
-// send back React's index.html to allow client-side routing
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
-// });
-
+// Catch-all handler to serve React app for client-side routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
 });
-
-// 404 handler for other HTTP methods on unknown routes (optional)
 
 // Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
-
