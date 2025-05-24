@@ -499,7 +499,9 @@ const RecipeInfo = () => {
                     onClick={deleteRecipe}
                     >
                       {isDeleting ? (
-                        <div><OrbitProgress color="#32cd32" size="medium" text="deleting" textColor="" /></div>
+                        <div>
+                          <OrbitProgress color="#32cd32" size="medium" text="deleting" textColor="" />
+                          </div>
                       ):(
                         <div>
                           delete
