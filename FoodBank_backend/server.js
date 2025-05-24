@@ -1,44 +1,44 @@
-// const express = require('express');
-// const dotenv = require('dotenv').config();
-// const connectdb = require('./Config/mongoConnect');
-// const jwt = require('jsonwebtoken')
-// const cors = require('cors');
-// const cloudinary = require('./cloudinaryConfig')
-// const path = require('path');
+const express = require('express');
+const dotenv = require('dotenv').config();
+const connectdb = require('./Config/mongoConnect');
+const jwt = require('jsonwebtoken')
+const cors = require('cors');
+const cloudinary = require('./cloudinaryConfig')
+const path = require('path');
 
-// const app = express();
-// app.use(cors({
-//   origin: ['https://nofoodwaste-occn.onrender.com'],
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// }));
-// app.options('*', cors());
-
-
-// const PORT = process.env.PORT || 5000;
-// connectdb();
-
-// app.use(express.static(path.join(__dirname, 'client/dist'))); // or 'client/build' for CRA
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/dist', 'index.html')); // adjust if you're using 'build'
-// });
-
-// app.use(express.json())
+const app = express();
+app.use(cors({
+  origin: ['https://nofoodwaste-occn.onrender.com'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.options('*', cors());
 
 
-// app.use('/recipe' ,require("./routes/recipe"));
-// app.use('/user' , require('./routes/user'));
-// app.use('/ingredients' , require('./routes/ingredients'));
-// app.use('/apiDeepseek' , require('./routes/apiDeepseek'))
+const PORT = process.env.PORT || 5000;
+connectdb();
+
+app.use(express.static(path.join(__dirname, 'client/dist'))); // or 'client/build' for CRA
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html')); // adjust if you're using 'build'
+});
+
+app.use(express.json())
 
 
-// app.listen(PORT , (err) =>{
-//     console.log(`running in PORT ${PORT}`)
-// })
+app.use('/recipe' ,require("./routes/recipe"));
+app.use('/user' , require('./routes/user'));
+app.use('/ingredients' , require('./routes/ingredients'));
+app.use('/apiDeepseek' , require('./routes/apiDeepseek'))
 
 
-// module.exports = app;
+app.listen(PORT , (err) =>{
+    console.log(`running in PORT ${PORT}`)
+})
+
+
+module.exports = app;
 
 // /api
 // ├── /ingredients
@@ -145,67 +145,3 @@
 // });
 
 
-
-
-const express = require('express');
-const dotenv = require('dotenv').config();
-const path = require('path');
-const connectdb = require('./Config/mongoConnect');
-const cors = require('cors');
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Connect to MongoDB
-connectdb();
-
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://nofoodwaste-occn.onrender.com',   // old frontend maybe
-  'https://nofoodwastefull.onrender.com'     // current frontend URL
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-
-// Body parsers
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// API Routes
-app.use('/recipe', require('./routes/recipe'));
-app.use('/user', require('./routes/user'));
-app.use('/ingredients', require('./routes/ingredients'));
-app.use('/apiDeepseek', require('./routes/apiDeepseek'));
-
-// 404 handler for unknown API routes ONLY
-app.use((req, res, next) => {
-  const apiPrefixes = ['/recipe', '/user', '/ingredients', '/apiDeepseek'];
-  if (apiPrefixes.some(prefix => req.path.startsWith(prefix))) {
-    return res.status(404).json({ message: 'API route not found' });
-  }
-  next();
-});
-
-// Serve React frontend static files
-app.use(express.static(path.join(__dirname, 'foodbank_frontend/build')));
-
-// Catch-all handler to serve React app for client-side routing
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'foodbank_frontend/build', 'index.html'));
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
