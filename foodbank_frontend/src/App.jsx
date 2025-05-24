@@ -50,9 +50,9 @@ const App = () => {
       if (!user) {
         loadUser(parsedUser);
         // Delay navigation to ensure the user context is updated
-        setTimeout(() => {
-          navigate('/');
-        }, 500);
+        // setTimeout(() => {
+        //   navigate('/');
+        // }, 500);
       }
     }
   }, [user, dispatch, navigate]);
