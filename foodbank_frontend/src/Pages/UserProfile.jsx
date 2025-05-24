@@ -327,7 +327,8 @@ const UserProfile = () => {
           </div>
         )}
 
-        {/* Right Section: Settings Button */}
+        {!isEditing && (
+
         <div className="flex justify-center md:justify-end w-full md:w-auto items-center mt-4 md:mt-0 md:ml-auto">
           <button
             onClick={() => setIsEditing(!isEditing)}
@@ -336,6 +337,8 @@ const UserProfile = () => {
             <IoMdSettings size={18} />
           </button>
         </div>
+        )}
+        {/* Right Section: Settings Button */}
       </div>
     </div>
 
