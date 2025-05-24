@@ -77,7 +77,9 @@ connectdb();
 
 const allowedOrigins = [
   'https://nofoodwaste-occn.onrender.com',
-  'http://localhost:5173'
+  'http://localhost:5173',
+    'https://nofoodwastefull.onrender.com' // ADD THIS if frontend is deployed here too
+
 ];
 
 app.use(cors({
