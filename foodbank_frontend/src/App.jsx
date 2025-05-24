@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
-import NavBar from './Components/NavBar';
 import RecipeInfo from './Pages/RecipeInfo';
 import UserProfile from './Pages/UserProfile';
 import { Component, useContext, useEffect, useState } from 'react';
