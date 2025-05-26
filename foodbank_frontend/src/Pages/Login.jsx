@@ -64,8 +64,20 @@ const handleSubmit = async (event) => {
     if (response.ok) {
       toast.success(('Login successful!'));
       localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      dispatch({ type: 'login', payload: data.user });
+      // localStorage.setItem('user', JSON.stringify(data.user));
+      // dispatch({ type: 'login', payload: data.user });
+
+
+      const minimalUser = {
+        _id: data.user._id,
+        name: data.user.name,
+        email: data.user.email,
+        // add only what you really need
+      };
+
+      localStorage.setItem('user', JSON.stringify(minimalUser));
+      dispatch({ type: 'login', payload: minimalUser });
+
       setTimeout(() => navigate('/'), 1000);
     } else {
       toast.error((data.message || 'Invalid inputs'));
