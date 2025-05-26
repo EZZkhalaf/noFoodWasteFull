@@ -253,7 +253,7 @@ const FindRecipes = () => {
   }, [searchQuery]);
 
   const fetchRecipes = useCallback(async () => {
-    setPageLoading(true); // Set page loading to true when starting the fetch
+    // setPageLoading(true); // Set page loading to true when starting the fetch
     const params = new URLSearchParams({
       page: currentPage.toString(),
       perPage: RECIPES_PER_PAGE.toString(),
@@ -271,9 +271,10 @@ const FindRecipes = () => {
       setTotalPages(data.totalPages);
     } catch (error) {
       setError(error.message);
-    } finally {
-      setPageLoading(false); // Turn off loading after fetching
-    }
+    } 
+    // finally {
+    //   setPageLoading(false); // Turn off loading after fetching
+    // }
   }, [currentPage, debouncedSearchQuery, selectedItems, selectedRecipeType]);
 
   useEffect(() => {

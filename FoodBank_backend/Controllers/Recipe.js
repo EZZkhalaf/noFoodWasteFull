@@ -40,7 +40,7 @@ const getRecipesPerPage = async (req, res) => {
       filter.type = selectedType;
     }
 
-    // Filter by ingredients (ingredient names, case insensitive)
+    // Filter by ingredients 
     if (selectedIngredients.length > 0) {
       filter['ingredients.name'] = {
         $all: selectedIngredients.map(name => new RegExp(`^${name}$`, 'i'))

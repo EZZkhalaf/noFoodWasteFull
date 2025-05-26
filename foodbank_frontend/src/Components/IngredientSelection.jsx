@@ -24,7 +24,7 @@ const IngredientSelection = ({ selectedItems, setSelectedItems  , componentTitle
       setSearchedIngBucket([]);
       return;
     }
-    setLoading(true);
+    // setLoading(true);
     try {
       const response = await fetch('https://nofoodwastefull.onrender.com/ingredients/searchIngredient', {
         method: 'POST',
