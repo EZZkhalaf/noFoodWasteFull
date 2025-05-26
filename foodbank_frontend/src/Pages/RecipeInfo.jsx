@@ -25,6 +25,8 @@ const RecipeInfo = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [bookmarLoading , setBookmarkLoading] = useState(false);
+  const[isSaving , setIsSaving] = useState(false);
 
   // State for edited values
   const [newRecipeTitle, setNewRecipeTitle] = useState('');
@@ -40,7 +42,6 @@ const RecipeInfo = () => {
   const fileInputRef = useRef(null);
 
   const [isImproving , setIsImproving ] = useState(false);
-  const [bookmarLoading , setBookmarkLoading] = useState(false);
 
   
 
@@ -124,6 +125,7 @@ const RecipeInfo = () => {
   
   // Save edited recipe
   const saveEditedRecipe = async () => {
+    setIsSaving(true)
     try {
  
       let formData = new FormData();
@@ -150,6 +152,8 @@ const RecipeInfo = () => {
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving recipe:', error);
+    }finally{
+      setIsSaving(false);
     }
   };
 
@@ -462,12 +466,22 @@ const RecipeInfo = () => {
                   </div>
                 ) : isRecipeOwner && isEditing ? (
                   <div className="flex gap-2 sm:gap-3">
-                    <button
-                      className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-gradient-to-r from-purple-500 to-blue-600 text-white rounded-full shadow-lg hover:scale-105 hover:shadow-xl transform-gpu duration-300"
-                      onClick={saveEditedRecipe}
-                    >
-                      Save
-                    </button>
+                    {isSaving ? (
+                      <button
+                        disabled
+                        className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-gray-300 text-gray-600 rounded-full shadow-inner cursor-not-allowed"
+                      >
+                        Saving...
+                      </button>
+                    ) : (
+                        <button
+                          className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-gradient-to-r from-purple-500 to-blue-600 text-white rounded-full shadow-lg hover:scale-105 hover:shadow-xl transform-gpu duration-300"
+                          onClick={saveEditedRecipe}
+                        >
+                          Save
+                        </button>
+                    )}
+
                     <button
                       className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-gray-500 text-white rounded-full shadow-lg hover:bg-gray-600 hover:shadow-lg transform-gpu duration-300"
                       onClick={cancelEditing}
