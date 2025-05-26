@@ -16,6 +16,7 @@ const UserPage = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [follower , setFollower] = useState(false);
+  const [followLoading , setFollowLoading] = useState(false);
   const userProfilePic =
     userPageOwner?.profilePic && userPageOwner.profilePic !== "/assets/defaultPhoto.png"
       ? userPageOwner.profilePic
@@ -25,8 +26,13 @@ const UserPage = () => {
 
   //checking for the follow or not followed for both users 
   useEffect(()=>{
+
     if(!user || !user._id) return ;
     const checkFollowStatus = async() =>{
+      setFollowLoading(true);
+      try{
+
+      
         const response = await fetch("https://nofoodwastefull.onrender.com/user/checkFollowStatus", {
           method: "post",
           headers: { "Content-Type": "application/json" },
@@ -36,6 +42,11 @@ const UserPage = () => {
         
           const data = await response.json();
           setFollower(data.isFollowing);
+      }catch(err){
+        console.log(err)
+      }finally{
+        setFollowLoading(false)
+      }
     }
     checkFollowStatus();
   },[user,user2_id]);
@@ -49,6 +60,7 @@ const UserPage = () => {
     }
     const fetchUserData = async () => {
       setLoading(true);
+
       try {
         const res = await fetch("https://nofoodwastefull.onrender.com/user/getUserById", {
           method: "POST",
@@ -74,6 +86,7 @@ const UserPage = () => {
   }, [user2_id]);
 
   const  handleToggleFollowButton = async() =>{
+    setFollowLoading(true);
     try {
       const response = await fetch('https://nofoodwastefull.onrender.com/user/toggleFollow' ,{
         method: "post",
@@ -88,6 +101,8 @@ const UserPage = () => {
       setFollower(data.isFollowing);
     } catch (error) {
       console.log('error in adding the user' , error)
+    }finally{
+      setFollowLoading(false);
     }
   }
   // Fetch user recipes
@@ -190,13 +205,22 @@ const UserPage = () => {
                 {userPageOwner.bio || "No bio available"}
               </p>
             </div>
+                {followLoading ? (
+                  <button
+                    disabled
+                    className="mt-4 md:mt-0 px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 self-center md:self-auto opacity-70 cursor-not-allowed"
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleToggleFollowButton}
+                    className="mt-4 md:mt-0 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 self-center md:self-auto"
+                  >
+                    {follower ? "Unfollow" : "Follow"}
+                  </button>
+                )}
 
-            <button
-              onClick={handleToggleFollowButton}
-              className="mt-4 md:mt-0 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 self-center md:self-auto"
-            >
-              {follower ? "Unfollow" : "Follow"}
-            </button>
           </div>
         </div>
 
