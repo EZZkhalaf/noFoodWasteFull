@@ -39,7 +39,8 @@ const RecipeInfo = () => {
   const [suggestedIngredients, setSuggestedIngredients] = useState([]);
   const fileInputRef = useRef(null);
 
-  const [isImproving , setIsImproving ] = useState(false)
+  const [isImproving , setIsImproving ] = useState(false);
+  const [bookmarLoading , setBookmarkLoading] = useState(false);
 
   
 
@@ -51,20 +52,30 @@ const RecipeInfo = () => {
 
   // Check if recipe is bookmarked
   useEffect(() => {
-    const checkBookmark = async () => {
-      const response = await fetch('https://nofoodwastefull.onrender.com/user/checkSave', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipeId: RecipeId,
-          userId: user._id
-        })
-      });
 
-      if (!response.ok) throw new Error('Request failed');
-      const data = await response.json();
-      // console.log(data)
-      setIsBookmarked(data === 'saved');
+    const checkBookmark = async () => {
+      setBookmarkLoading(true);
+      try{
+
+        
+        const response = await fetch('https://nofoodwastefull.onrender.com/user/checkSave', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            recipeId: RecipeId,
+            userId: user._id
+          })
+        });
+
+        if (!response.ok) throw new Error('Request failed');
+        const data = await response.json();
+        // console.log(data)
+        setIsBookmarked(data === 'saved');
+      }catch(err){
+        console.log(err);
+      }finally{
+        setBookmarkLoading(false);
+      }
     };
     checkBookmark();
   }, []);
@@ -292,6 +303,7 @@ const RecipeInfo = () => {
     e.preventDefault();
     e.stopPropagation();
     if (loading) return;
+    setBookmarkLoading(true);
 
     try {
       const response = await fetch('https://nofoodwastefull.onrender.com/user/save', {
@@ -306,14 +318,16 @@ const RecipeInfo = () => {
     } catch (error) {
       console.error("Error saving bookmark:", error);
       setError(error.message);
-    } 
+    }finally{
+      setBookmarkLoading(false);
+    }
   };
 
   const handleUnBookmark = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (loading) return;
-
+    setBookmarkLoading(true);
     try {
       const response = await fetch('https://nofoodwastefull.onrender.com/user/unsave', {
         method: 'POST',
@@ -327,7 +341,9 @@ const RecipeInfo = () => {
     } catch (error) {
       console.error("Error unsaving bookmark:", error);
       setError(error.message);
-    } 
+    } finally{
+      setBookmarkLoading(false)
+    }
   };
 
 
@@ -466,31 +482,42 @@ const RecipeInfo = () => {
                     </button>
                   </div>
                 ) : (
-
-
-
-                  <button
-                    onClick={isBookmarked ? handleUnBookmark : handleBookmark}
-                    className="
-                      flex items-center gap-2 bg-white bg-opacity-80 px-4 py-2 rounded-full 
-                      transition transform duration-300 ease-out 
-                      hover:scale-110 hover:bg-opacity-100 
-                      shadow-sm hover:shadow-md
-                    "
-                  >
-                    {isBookmarked ? (
-                      <>
-                        <IoMdBookmark className="text-blue-600 text-xl" />
-                        <span className="text-blue-600 font-medium">Bookmarked</span>
-                      </>
-                    ) : (
-                      <>
-                        <CiBookmarkPlus className="text-gray-600 text-xl" />
-                        <span className="text-gray-600 font-medium">Bookmark</span>
-                      </>
-                    )}
-                  </button>
-
+                    <>
+                        {bookmarLoading ? (
+                          <button
+                            disabled
+                            className="
+                              flex items-center gap-2 bg-white bg-opacity-80 px-4 py-2 rounded-full 
+                              transition transform duration-300 ease-out 
+                              shadow-sm cursor-not-allowed opacity-70
+                            "
+                          >
+                            <span className="text-gray-500 font-medium">Loading...</span>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={isBookmarked ? handleUnBookmark : handleBookmark}
+                            className="
+                              flex items-center gap-2 bg-white bg-opacity-80 px-4 py-2 rounded-full 
+                              transition transform duration-300 ease-out 
+                              hover:scale-110 hover:bg-opacity-100 
+                              shadow-sm hover:shadow-md
+                            "
+                          >
+                            {isBookmarked ? (
+                              <>
+                                <IoMdBookmark className="text-blue-600 text-xl" />
+                                <span className="text-blue-600 font-medium">Bookmarked</span>
+                              </>
+                            ) : (
+                              <>
+                                <CiBookmarkPlus className="text-gray-600 text-xl" />
+                                <span className="text-gray-600 font-medium">Bookmark</span>
+                              </>
+                            )}
+                          </button>
+                        )}
+                    </>
                 )}
                 
                 <span className="text-white bg-gray-800/90 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
