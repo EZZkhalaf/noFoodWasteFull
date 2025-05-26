@@ -17,6 +17,7 @@ const UserProfile = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [submitLoading , setSubmitLoading] = useState(false);
   const navigate = useNavigate();
   const {
     username,
@@ -103,6 +104,7 @@ const UserProfile = () => {
 
   const editUser = async (e) => {
     e.preventDefault();
+    setSubmitLoading(true);
     const formData = new FormData();
     formData.append('newUsername', profileUsername);
     formData.append('newBio', profileBio);
@@ -121,6 +123,8 @@ const UserProfile = () => {
       setIsEditing(false);
     } catch (error) {
       console.error('Error updating the user data:', error);
+    }finally{
+      setSubmitLoading(false);
     }
   };
 
@@ -305,12 +309,24 @@ const UserProfile = () => {
                 </div>
               </div>
             </div>
+
+            {submitLoading ? (
+              <button
+                disabled
+                className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md m-3 hover:bg-green-600 transition-all self-center md:self-auto"
+                
+              >
+                loading...
+              </button>
+            ):(
+
             <button
               className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md m-3 hover:bg-green-600 transition-all self-center md:self-auto"
               onClick={editUser}
             >
               Submit
             </button>
+            )}
           </div>
         ) : (
           <div className="flex flex-col sm:flex-row text-center sm:text-left items-center">
