@@ -597,7 +597,7 @@ const RecipeInfo = () => {
                         {recipeUser?.username || "Unknown Chef"}
                       </h3>
                       <p className="text-xs sm:text-sm font-medium text-emerald-600">
-                        Recipe Creator • {recipeUser?.experience || "Professional Chef"}
+                        Recipe Creator 
                       </p>
                     </div>
                     

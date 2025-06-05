@@ -7,7 +7,7 @@ const { options } = require('../routes/user');
 
 const addIngredients = async (req, res) => {
     const { ingredients } = req.body;
-
+    console.log("adding")
     // Ensure the body contains an array and each ingredient has a name and unit
     if (!Array.isArray(ingredients) || ingredients.some(ingredient => !ingredient.name || !ingredient.unit)) {
         return res.status(400).json({ message: 'Each ingredient must have a "name" and a "unit".' });
