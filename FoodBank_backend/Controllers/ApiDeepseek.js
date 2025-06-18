@@ -29,10 +29,9 @@ const improveInstructions = async (req, res) => {
     });
 
     const data = await response.json();
-    // const reasoning = data.choices[0].message.reasoning;
-    // return res.status(200).json(reasoning);
-    const result = data.choices[0].message.content;
-    return res.status(200).json({ result });
+    const reasoning = data.choices[0].message.reasoning;
+    return res.status(200).json(reasoning);
+
 
   } catch (error) {
     console.error(error); 
