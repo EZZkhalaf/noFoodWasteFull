@@ -155,6 +155,7 @@ const RecipeInfo = () => {
       console.error('Error saving recipe:', error);
     }finally{
       setIsSaving(false);
+      setIsEditing(false)
     }
   };
 
