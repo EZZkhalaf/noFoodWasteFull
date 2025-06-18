@@ -147,7 +147,12 @@ const RecipeInfo = () => {
       });
 
       // if (!response.ok) throw new Error('Failed to update recipe');
-      const updatedRecipe = await response.json();
+      // const updatedRecipe = await response.json();
+
+      console.log('Raw response:', response);
+const updatedRecipe = await response.json();
+console.log('Updated recipe:', updatedRecipe);
+
       console.log(updatedRecipe)
       setRecipe(updatedRecipe);
       setIsEditing(false);
@@ -155,7 +160,7 @@ const RecipeInfo = () => {
       console.error('Error saving recipe:', error);
     }finally{
       setIsSaving(false);
-      setIsEditing(false)
+      // setIsEditing(false)
     }
   };
 
