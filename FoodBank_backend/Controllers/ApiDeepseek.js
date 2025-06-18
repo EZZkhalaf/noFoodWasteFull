@@ -30,8 +30,8 @@
 //     });
 
 //     const data = await response.json();
-//     // const reasoning = data.choices[0].message.reasoning;
-//     // return res.status(200).json(reasoning);
+    // const reasoning = data.choices[0].message.reasoning;
+    // return res.status(200).json(reasoning);
 //     const content = data.choices?.[0]?.message?.content;
 
 //     if (!content) {
@@ -88,8 +88,10 @@ const improveInstructions = async (req, res) => {
       console.error("Unexpected response from OpenRouter:", data);
       return res.status(500).json({ error: "Bad response from model", raw: data });
     }
+    const reasoning = data.choices[0].message.reasoning;
+    return res.status(200).json(reasoning);
 
-    return res.status(200).json({ result: content }); 
+    // return res.status(200).json({ result: content }); 
 
   } catch (error) {
     console.error(error);
