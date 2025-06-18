@@ -76,19 +76,6 @@ const AddRecipe = () => {
       reader.readAsDataURL(file);
     }
 
-        const file = e.target.files[0];
-    if (!file) return;
-
-    // If Base64 is needed
-    // const reader = new FileReader();
-    // reader.onloadend = () => {
-    //   setNewRecipeImage(reader.result);
-    // };
-    // reader.readAsDataURL(file);
-
-    // // If a file object is needed
-    // setNewRecipeImage(file);
-  };
 
   const fetchSuggestedIngredients = async (query) => {
     if (!query.trim()) {
