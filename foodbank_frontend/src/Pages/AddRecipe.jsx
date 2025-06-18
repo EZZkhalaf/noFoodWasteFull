@@ -75,7 +75,7 @@ const AddRecipe = () => {
       };
       reader.readAsDataURL(file);
     }
-
+  }
 
   const fetchSuggestedIngredients = async (query) => {
     if (!query.trim()) {
