@@ -18,7 +18,8 @@ const improveInstructions = async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-r1-zero:free",
+        // model: "deepseek/deepseek-r1-zero:free"
+        model : "deepseek/deepseek-r1-0528:free",
         messages: [
           {
             role: "user",
@@ -38,7 +39,7 @@ const improveInstructions = async (req, res) => {
       return res.status(500).json({ error: "Bad response from model", raw: data });
     }
 
-    return res.status(200).json({ result: content });
+    return res.status(200).json({ result: data });
 
 
 
