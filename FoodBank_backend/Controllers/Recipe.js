@@ -260,80 +260,80 @@ const addRecipe = async (req, res) => {
 // };
 
 
-// const editRecipe = async (req, res) => {
+const editRecipe = async (req, res) => {
 
-//         const { RecipeId } = req.params;
+        const { RecipeId } = req.params;
 
-//         try {
-//           // Find the recipe
-//           let recipe = await Recipe.findById(RecipeId);
-//           if (!recipe) {
-//             return res.status(404).json({ message: 'Recipe not found' });
-//           }
+        try {
+          // Find the recipe
+          let recipe = await Recipe.findById(RecipeId);
+          if (!recipe) {
+            return res.status(404).json({ message: 'Recipe not found' });
+          }
       
-//           // Prepare updated fields
-//           const updatedFields = {};
-//           if (req.body.newRecipe_title) updatedFields.recipe_title = req.body.newRecipe_title;
+          // Prepare updated fields
+          const updatedFields = {};
+          if (req.body.newRecipe_title) updatedFields.recipe_title = req.body.newRecipe_title;
       
-//           // Parse ingredients from JSON string
-//           if (req.body.newIngredients) {
-//             try {
-//               const parsedIngredients = JSON.parse(req.body.newIngredients);
-//               if (Array.isArray(parsedIngredients)) {
-//                 // Transform ingredient_name to name and ensure quantity is present
-//                 const transformedIngredients = parsedIngredients.map(ingredient => ({
-//                   name: ingredient.name || '', // Map ingredient_name to name
-//                   quantity: ingredient.quantity || '',   // Ensure quantity is present
-//                   unit: ingredient.unit || ''           // Include unit if available
-//                 }));
-//                 updatedFields.ingredients = transformedIngredients;
-//               } else {
-//                 return res.status(400).json({ message: 'Invalid ingredients format' });
-//               }
-//             } catch (error) {
-//               return res.status(400).json({ message: 'Invalid ingredients JSON' });
-//             }
-//           }
+          // Parse ingredients from JSON string
+          if (req.body.newIngredients) {
+            try {
+              const parsedIngredients = JSON.parse(req.body.newIngredients);
+              if (Array.isArray(parsedIngredients)) {
+                // Transform ingredient_name to name and ensure quantity is present
+                const transformedIngredients = parsedIngredients.map(ingredient => ({
+                  name: ingredient.name || '', // Map ingredient_name to name
+                  quantity: ingredient.quantity || '',   // Ensure quantity is present
+                  unit: ingredient.unit || ''           // Include unit if available
+                }));
+                updatedFields.ingredients = transformedIngredients;
+              } else {
+                return res.status(400).json({ message: 'Invalid ingredients format' });
+              }
+            } catch (error) {
+              return res.status(400).json({ message: 'Invalid ingredients JSON' });
+            }
+          }
       
-//           if (req.body.newInstructions) updatedFields.instructions = req.body.newInstructions;
-//           if (req.body.newRecipe_description) updatedFields.recipe_description = req.body.newRecipe_description;
-//           if (req.body.newCookingTime) {
-//             const cookingTime = parseInt(req.body.newCookingTime, 10);
-//             if (!isNaN(cookingTime)) {
-//               updatedFields.cookingTime = cookingTime;
-//             } else {
-//               return res.status(400).json({ message: 'Invalid cooking time' });
-//             }
-//           }
+          if (req.body.newInstructions) updatedFields.instructions = req.body.newInstructions;
+          if (req.body.newRecipe_description) updatedFields.recipe_description = req.body.newRecipe_description;
+          if (req.body.newCookingTime) {
+            const cookingTime = parseInt(req.body.newCookingTime, 10);
+            if (!isNaN(cookingTime)) {
+              updatedFields.cookingTime = cookingTime;
+            } else {
+              return res.status(400).json({ message: 'Invalid cooking time' });
+            }
+          }
       
-//           // Handle image upload
-//           if (req.file) {
-//             // Convert image to Base64 if needed
-//             const imageBuffer = req.file.buffer;
-//             const imageBase64 = imageBuffer.toString('base64');
-//             const imageMimeType = req.file.mimetype;
-//             updatedFields.recipe_image = `data:${imageMimeType};base64,${imageBase64}`;
-//           } else if (req.body.newRecipe_image) {
-//             updatedFields.recipe_image = req.body.newRecipe_image;
-//           }
+          // Handle image upload
+          if (req.file) {
+            // Convert image to Base64 if needed
+            const imageBuffer = req.file.buffer;
+            const imageBase64 = imageBuffer.toString('base64');
+            const imageMimeType = req.file.mimetype;
+            updatedFields.recipe_image = `data:${imageMimeType};base64,${imageBase64}`;
+          } else if (req.body.newRecipe_image) {
+            updatedFields.recipe_image = req.body.newRecipe_image;
+          }
       
-//           // Update the recipe
-//           if (Object.keys(updatedFields).length === 0) {
-//             return res.status(200).json({ message: 'No changes in the recipe info.', recipe });
-//           }
+          // Update the recipe
+          if (Object.keys(updatedFields).length === 0) {
+            return res.status(200).json({ message: 'No changes in the recipe info.', recipe });
+          }
       
-//           const updatedRecipe = await Recipe.findByIdAndUpdate(
-//             RecipeId,
-//             { $set: updatedFields },
-//             { new: true }
-//           );
+          const updatedRecipe = await Recipe.findByIdAndUpdate(
+            RecipeId,
+            { $set: updatedFields },
+            { new: true }
+          );
       
-//           res.status(200).json(updatedRecipe);
-//         } catch (error) {
-//           console.error("Error updating recipe:", error);
-//           return res.status(400).json({ message: error.message });
-//         }
-// }
+          res.status(200).json(updatedRecipe);
+        } catch (error) {
+          console.error("Error updating recipe:", error);
+          return res.status(400).json({ message: error.message });
+        }
+}
 
 
 const getMultipleRecipesData = async (req,res) => {
