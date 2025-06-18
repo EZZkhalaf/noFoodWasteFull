@@ -152,9 +152,7 @@ const RecipeInfo = () => {
         throw new Error('Failed to update recipe');}
       // const updatedRecipe = await response.json();
 
-      console.log('Raw response:', response);
-const updatedRecipe = await response.json();
-console.log('Updated recipe:', updatedRecipe);
+      const updatedRecipe = await response.json();
 
       console.log(updatedRecipe)
       setRecipe(updatedRecipe);

@@ -207,14 +207,13 @@ const AddRecipe = () => {
   //     setLoading(false);
   //   }
   // };
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
   setSuccess(false);
   setLoading(true);
 
   try {
-    // Basic form validation
     if (
       !formData.recipe_title ||
       !formData.instructions ||
@@ -227,7 +226,6 @@ const AddRecipe = () => {
       return;
     }
 
-    // Ingredient validation
     const invalidIngredients = formData.ingredients.some(
       (ing) => !ing.name.trim() || !ing.quantity.trim()
     );
@@ -237,42 +235,22 @@ const AddRecipe = () => {
       return;
     }
 
-    // Helper to convert image file to Base64
-    const readFileAsBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    };
-
-    // Convert selected file to base64 if exists
-    let imageData = '';
+    const form = new FormData();
+    form.append('recipe_title', formData.recipe_title);
+    form.append('recipe_description', formData.recipe_description);
+    form.append('instructions', formData.instructions);
+    form.append('type', formData.type);
+    form.append('recipe_user', userId);
+    form.append('difficulty', formData.difficulty || '');
+    form.append('cookingTime', formData.cookingTime || '');
+    form.append('ingredients', JSON.stringify(formData.ingredients));
     if (selectedFile) {
-      imageData = await readFileAsBase64(selectedFile);
-
-      // Optional: check base64 validity
-      if (!imageData.startsWith('data:image/')) {
-        setError('Invalid image format');
-        setLoading(false);
-        return;
-      }
-    } else {
-      imageData = formData.recipe_image || ''; // fallback
+      form.append('recipe_image', selectedFile);
     }
 
-    // Send request to backend
     const response = await fetch('https://nofoodwastefull.onrender.com/recipe', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify([{
-        ...formData,
-        recipe_image: imageData,
-        recipe_user: userId,
-      }]),
+      body: form,
     });
 
     const data = await response.json();
@@ -299,6 +277,7 @@ const AddRecipe = () => {
     setLoading(false);
   }
 };
+
 
 
 

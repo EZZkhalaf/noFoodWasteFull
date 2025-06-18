@@ -34,22 +34,19 @@ const getRecipesPerPage = async (req, res) => {
         { recipe_description: { $regex: searchQuery, $options: 'i' } }
       ];
     }
-
     // Filter by recipe type
     if (selectedType) {
       filter.type = selectedType;
     }
-
     // Filter by ingredients 
     if (selectedIngredients.length > 0) {
       filter['ingredients.name'] = {
         $all: selectedIngredients.map(name => new RegExp(`^${name}$`, 'i'))
       };
     }
-
     const total = await Recipe.countDocuments(filter);
     const totalPages = Math.ceil(total / perPage);
-
+    
     const recipes = await Recipe.find(filter)
       .skip((page - 1) * perPage)
       .limit(perPage);
@@ -85,25 +82,7 @@ const getRecipe = async (req, res) => {
     }
 };
 
-// const getPopulerRecipe = async(req,res)=>{
-//   try {
-//     const recipes = await Recipe.find();
-//     if (!recipes || recipes.length === 0) {
-//       return res.status(404).json({ message: 'No recipes found' });
-//     }
 
-//     const theRecipe = recipes.reduce((max,recipe) => 
-//       (recipe.Bookmarks?.length || 0) > (max.Bookmarks?.length || 0) ? recipe : max  
-//     )
-
-//     return res.status(200).json(theRecipe);
-//   } catch (error) {
-//     return res.status(500).json({ 
-//       message: 'Error finding recipes', 
-//       error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error' 
-//   });
-//   }
-// }
 
 
 
@@ -167,67 +146,117 @@ const getUserRecipes = async (req, res) => {
 };
 
 
+// const addRecipe = async (req, res) => {
+//     const recipes = req.body;
+
+//     if (!Array.isArray(recipes)) {
+//         return res.status(400).json({ message: 'Request body must be an array of recipes.' });
+//     }
+
+//     for (const recipe of recipes) {
+//         if (!recipe.recipe_title || !recipe.instructions || !recipe.ingredients || !recipe.recipe_user || !recipe.type) {
+//           return res.status(400).json({ message: 'One or more recipes are missing required fields.' });
+//         }
+//     }
+
+//     try {
+//         const session = await mongoose.startSession();
+//         session.startTransaction();
+
+//         try {
+//             const newRecipes = await Recipe.create(recipes.map(recipe => ({
+//                 recipe_title: recipe.recipe_title,
+//                 recipe_description: recipe.recipe_description,
+//                 instructions: recipe.instructions,
+//                 ingredients: recipe.ingredients.map(ing => ({
+//                     name: ing.name.toLowerCase(),
+//                     quantity: ing.quantity
+//                 })),
+//                 recipe_user: recipe.recipe_user,
+//                 recipe_image: recipe.recipe_image,
+//                 type: recipe.type,
+//                 difficulty: recipe.difficulty,
+//                 cookingTime: recipe.cookingTime
+//             })), { session });
+
+            
+//             const user = await User.findById(recipes[0].recipe_user).session(session);
+//             if (!user) {
+//                 await session.abortTransaction();
+//                 return res.status(400).json({ message: 'The user does not exist.' });
+//             }
+
+//             user.ownRecipes.push(...newRecipes.map(r => r._id));
+//             await user.save({ session });
+
+            
+//             await session.commitTransaction();
+//             res.status(201).json({ message: 'Recipes created successfully.' });
+
+//         } catch (error) {
+//             await session.abortTransaction();
+//             throw error;
+//         } finally {
+//             session.endSession();
+//         }
+
+//     } catch (error) {
+//         return res.status(500).json({ 
+//             message: 'Error creating recipes', 
+//             error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error' 
+//         });
+//     }
+// };
+
+
 const addRecipe = async (req, res) => {
-    const recipes = req.body;
+  try {
+    const {
+      recipe_title,
+      recipe_description,
+      instructions,
+      recipe_user,
+      type,
+      difficulty,
+      cookingTime,
+      ingredients,
+    } = req.body;
 
-    if (!Array.isArray(recipes)) {
-        return res.status(400).json({ message: 'Request body must be an array of recipes.' });
+    if (!recipe_title || !instructions || !ingredients || !recipe_user || !type) {
+      return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    for (const recipe of recipes) {
-        if (!recipe.recipe_title || !recipe.instructions || !recipe.ingredients || !recipe.recipe_user || !recipe.type) {
-          console.log("testing") 
-          return res.status(400).json({ message: 'One or more recipes are missing required fields.' });
-        }
+    const parsedIngredients = JSON.parse(ingredients); // ingredients is sent as a string
+
+    const imageBuffer = req.file ? req.file.buffer.toString('base64') : '';
+
+    const recipe = await Recipe.create({
+      recipe_title,
+      recipe_description,
+      instructions,
+      ingredients: parsedIngredients.map((ing) => ({
+        name: ing.name.toLowerCase(),
+        quantity: ing.quantity,
+      })),
+      recipe_user,
+      type,
+      difficulty,
+      cookingTime,
+      recipe_image: imageBuffer ? `data:${req.file.mimetype};base64,${imageBuffer}` : '',
+    });
+
+    const user = await User.findById(recipe_user);
+    if (!user) {
+      return res.status(400).json({ message: 'User does not exist' });
     }
 
-    try {
-        const session = await mongoose.startSession();
-        session.startTransaction();
+    user.ownRecipes.push(recipe._id);
+    await user.save();
 
-        try {
-            const newRecipes = await Recipe.create(recipes.map(recipe => ({
-                recipe_title: recipe.recipe_title,
-                recipe_description: recipe.recipe_description,
-                instructions: recipe.instructions,
-                ingredients: recipe.ingredients.map(ing => ({
-                    name: ing.name.toLowerCase(),
-                    quantity: ing.quantity
-                })),
-                recipe_user: recipe.recipe_user,
-                recipe_image: recipe.recipe_image,
-                type: recipe.type,
-                difficulty: recipe.difficulty,
-                cookingTime: recipe.cookingTime
-            })), { session });
-
-            
-            const user = await User.findById(recipes[0].recipe_user).session(session);
-            if (!user) {
-                await session.abortTransaction();
-                return res.status(400).json({ message: 'The user does not exist.' });
-            }
-
-            user.ownRecipes.push(...newRecipes.map(r => r._id));
-            await user.save({ session });
-
-            
-            await session.commitTransaction();
-            res.status(201).json({ message: 'Recipes created successfully.' });
-
-        } catch (error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            session.endSession();
-        }
-
-    } catch (error) {
-        return res.status(500).json({ 
-            message: 'Error creating recipes', 
-            error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error' 
-        });
-    }
+    return res.status(201).json({ message: 'Recipe created successfully.' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error creating recipe', error: error.message });
+  }
 };
 
 
