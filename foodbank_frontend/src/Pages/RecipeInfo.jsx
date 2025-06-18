@@ -292,7 +292,7 @@ const RecipeInfo = () => {
         
 
         const data = await response.json();
-        // console.log(data)
+        console.log(data)
         setNewInstruction(data);
       } catch (error) {
           console.log(error)
