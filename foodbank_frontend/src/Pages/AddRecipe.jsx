@@ -193,6 +193,7 @@ const AddRecipe = () => {
         setPreviewImage(null);
         navigate(`/userprofile/${userId}`);
       } else {
+        console.log(data)
         setError(data.message || 'Error adding recipe');
       }
     } catch (err) {
