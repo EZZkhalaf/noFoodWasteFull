@@ -207,16 +207,14 @@ const AddRecipe = () => {
   //     setLoading(false);
   //   }
   // };
-
-
-  
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
   setSuccess(false);
   setLoading(true);
 
   try {
+    // Basic form validation
     if (
       !formData.recipe_title ||
       !formData.instructions ||
@@ -229,6 +227,7 @@ const handleSubmit = async (e) => {
       return;
     }
 
+    // Ingredient validation
     const invalidIngredients = formData.ingredients.some(
       (ing) => !ing.name.trim() || !ing.quantity.trim()
     );
@@ -238,22 +237,42 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    // Use FormData
-    const form = new FormData();
-    form.append('recipe_title', formData.recipe_title);
-    form.append('recipe_description', formData.recipe_description);
-    form.append('instructions', formData.instructions);
-    form.append('type', formData.type);
-    form.append('ingredients', JSON.stringify(formData.ingredients));
-    form.append('recipe_user', userId);
+    // Helper to convert image file to Base64
+    const readFileAsBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    };
 
+    // Convert selected file to base64 if exists
+    let imageData = '';
     if (selectedFile) {
-      form.append('recipe_image', selectedFile); // this is the raw file
+      imageData = await readFileAsBase64(selectedFile);
+
+      // Optional: check base64 validity
+      if (!imageData.startsWith('data:image/')) {
+        setError('Invalid image format');
+        setLoading(false);
+        return;
+      }
+    } else {
+      imageData = formData.recipe_image || ''; // fallback
     }
 
+    // Send request to backend
     const response = await fetch('https://nofoodwastefull.onrender.com/recipe', {
       method: 'POST',
-      body: form,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([{
+        ...formData,
+        recipe_image: imageData,
+        recipe_user: userId,
+      }]),
     });
 
     const data = await response.json();
@@ -275,13 +294,15 @@ const handleSubmit = async (e) => {
       setError(data.message || 'Error adding recipe');
     }
   } catch (err) {
-    console.error(err);
     setError('Error adding recipe. Please try again.');
   } finally {
     setLoading(false);
   }
 };
 
+
+
+  
 
 
     //using the deepseek API
