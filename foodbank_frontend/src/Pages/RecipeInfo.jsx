@@ -140,13 +140,16 @@ const RecipeInfo = () => {
       formData.append('newCookingTime', newCookingTime);
       formData.append('newRecipe_image', newRecipeImage); // File object
 
+  
 
       const response = await fetch(`https://nofoodwastefull.onrender.com/recipe/${RecipeId}`, {
         method: 'post',
         body: formData
       });
 
-      // if (!response.ok) throw new Error('Failed to update recipe');
+      if (!response.ok){
+        console.log("error insresponse " , response)
+        throw new Error('Failed to update recipe');}
       // const updatedRecipe = await response.json();
 
       console.log('Raw response:', response);
