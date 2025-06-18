@@ -17,7 +17,9 @@ connectdb();
 
 // Enable CORS for your frontend origins
 app.use(cors({
-  origin: ['https://nofoodwaste-occn.onrender.com'],credentials: true, methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: ['https://nofoodwaste-occn.onrender.com'],
+  credentials: true,
+   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
@@ -25,7 +27,7 @@ app.use(cors({
 
 app.options('*', cors());
 
-app.use(express.json());
+app.use(express.json({limit : '10mb'}));
 
 
 // API routes (register before static serving so API routes are matched first)

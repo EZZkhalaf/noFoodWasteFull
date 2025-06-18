@@ -131,173 +131,86 @@ const AddRecipe = () => {
 
 
 
-  // const handleSubmit = async (e) => {
-  //   // console.log(formData)
-  //   e.preventDefault();
-  //   setError('');
-  //   setSuccess(false);
-  //   setLoading(true);
+  const handleSubmit = async (e) => {
+    // console.log(formData)
+    e.preventDefault();
+    setError('');
+    setSuccess(false);
+    setLoading(true);
 
-  //   try {
-  //     if (
-  //       !formData.recipe_title ||
-  //       !formData.instructions ||
-  //       !formData.ingredients.length ||
-  //       !userId ||
-  //       !formData.type
-  //     ) {
-  //       setError('Please fill all required fields');
-  //       setLoading(false);
-  //       return;
-  //     }
-
-  //     const invalidIngredients = formData.ingredients.some(
-  //       (ing) => !ing.name.trim() || !ing.quantity.trim()
-  //     );
-  //     if (invalidIngredients) {
-  //       setError('All ingredients must have name and quantity');
-  //       setLoading(false);
-  //       return;
-  //     }
-
-  //     let imageData = '';
-  //     if (selectedFile) {
-  //       const reader = new FileReader();
-  //       reader.onload = (event) => {
-  //         imageData = event.target.result;
-  //       };
-  //       reader.readAsDataURL(selectedFile);
-  //       await new Promise((resolve) => (reader.onloadend = resolve));
-  //     } else {
-  //       imageData = formData.recipe_image;
-  //     }
-
-  //     const response = await fetch('https://nofoodwastefull.onrender.com/recipe', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify([{
-  //         ...formData,
-  //         recipe_image: imageData,
-  //         recipe_user: userId,
-  //       }]),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       setSuccess(true);
-  //       setFormData({
-  //         recipe_title: '',
-  //         recipe_description: '',
-  //         instructions: '',
-  //         type: '',
-  //         ingredients: [],
-  //       });
-  //       setSelectedFile(null);
-  //       setPreviewImage(null);
-  //       navigate(`/userprofile/${userId}`);
-  //     } else {
-  //       console.log(data)
-  //       setError(data.message || 'Error adding recipe');
-  //     }
-  //   } catch (err) {
-  //     setError('Error adding recipe. Please try again.');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
-  setSuccess(false);
-  setLoading(true);
-
-  try {
-    if (
-      !formData.recipe_title ||
-      !formData.instructions ||
-      !formData.ingredients.length ||
-      !userId ||
-      !formData.type
-    ) {
-      setError('Please fill all required fields');
-      setLoading(false);
-      return;
-    }
-
-    const invalidIngredients = formData.ingredients.some(
-      (ing) => !ing.name.trim() || !ing.quantity.trim()
-    );
-    if (invalidIngredients) {
-      setError('All ingredients must have name and quantity');
-      setLoading(false);
-      return;
-    }
-
-    // Step 1: compress image
-    let imageData = '';
-    if (selectedFile) {
-      const options = {
-        maxSizeMB: 0.5,          // <= compress to max 0.5MB
-        maxWidthOrHeight: 1024,  // <= resize large images
-        useWebWorker: true,
-      };
-
-      const compressedFile = await imageCompression(selectedFile, options);
-      imageData = await imageCompression.getDataUrlFromFile(compressedFile);
-
-      if (!imageData.startsWith('data:image/')) {
-        setError('Invalid image format');
+    try {
+      if (
+        !formData.recipe_title ||
+        !formData.instructions ||
+        !formData.ingredients.length ||
+        !userId ||
+        !formData.type
+      ) {
+        setError('Please fill all required fields');
         setLoading(false);
         return;
       }
-    } else {
-      imageData = formData.recipe_image || '';
-    }
 
-    // Submit to backend
-    const response = await fetch('https://nofoodwastefull.onrender.com/recipe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify([{
-        ...formData,
-        recipe_image: imageData,
-        recipe_user: userId,
-      }]),
-    });
+      const invalidIngredients = formData.ingredients.some(
+        (ing) => !ing.name.trim() || !ing.quantity.trim()
+      );
+      if (invalidIngredients) {
+        setError('All ingredients must have name and quantity');
+        setLoading(false);
+        return;
+      }
 
-    const data = await response.json();
+      let imageData = '';
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          imageData = event.target.result;
+        };
+        reader.readAsDataURL(selectedFile);
+        await new Promise((resolve) => (reader.onloadend = resolve));
+      } else {
+        imageData = formData.recipe_image;
+      }
 
-    if (response.ok) {
-      setSuccess(true);
-      setFormData({
-        recipe_title: '',
-        recipe_description: '',
-        instructions: '',
-        type: '',
-        ingredients: [],
+      const response = await fetch('https://nofoodwastefull.onrender.com/recipe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([{
+          ...formData,
+          recipe_image: imageData,
+          recipe_user: userId,
+        }]),
       });
-      setSelectedFile(null);
-      setPreviewImage(null);
-      navigate(`/userprofile/${userId}`);
-    } else {
-      console.log(data);
-      setError(data.message || 'Error adding recipe');
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({
+          recipe_title: '',
+          recipe_description: '',
+          instructions: '',
+          type: '',
+          ingredients: [],
+        });
+        setSelectedFile(null);
+        setPreviewImage(null);
+        navigate(`/userprofile/${userId}`);
+      } else {
+        console.log(data)
+        setError(data.message || 'Error adding recipe');
+      }
+    } catch (err) {
+      setError('Error adding recipe. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.error(err);
-    setError('Error adding recipe. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
+  };
+
+
+
 
   
 

@@ -146,194 +146,194 @@ const getUserRecipes = async (req, res) => {
 };
 
 
-// const addRecipe = async (req, res) => {
-//     const recipes = req.body;
-
-//     if (!Array.isArray(recipes)) {
-//         return res.status(400).json({ message: 'Request body must be an array of recipes.' });
-//     }
-
-//     for (const recipe of recipes) {
-//         if (!recipe.recipe_title || !recipe.instructions || !recipe.ingredients || !recipe.recipe_user || !recipe.type) {
-//           return res.status(400).json({ message: 'One or more recipes are missing required fields.' });
-//         }
-//     }
-
-//     try {
-//         const session = await mongoose.startSession();
-//         session.startTransaction();
-
-//         try {
-//             const newRecipes = await Recipe.create(recipes.map(recipe => ({
-//                 recipe_title: recipe.recipe_title,
-//                 recipe_description: recipe.recipe_description,
-//                 instructions: recipe.instructions,
-//                 ingredients: recipe.ingredients.map(ing => ({
-//                     name: ing.name.toLowerCase(),
-//                     quantity: ing.quantity
-//                 })),
-//                 recipe_user: recipe.recipe_user,
-//                 recipe_image: recipe.recipe_image,
-//                 type: recipe.type,
-//                 difficulty: recipe.difficulty,
-//                 cookingTime: recipe.cookingTime
-//             })), { session });
-
-            
-//             const user = await User.findById(recipes[0].recipe_user).session(session);
-//             if (!user) {
-//                 await session.abortTransaction();
-//                 return res.status(400).json({ message: 'The user does not exist.' });
-//             }
-
-//             user.ownRecipes.push(...newRecipes.map(r => r._id));
-//             await user.save({ session });
-
-            
-//             await session.commitTransaction();
-//             res.status(201).json({ message: 'Recipes created successfully.' });
-
-//         } catch (error) {
-//             await session.abortTransaction();
-//             throw error;
-//         } finally {
-//             session.endSession();
-//         }
-
-//     } catch (error) {
-//         return res.status(500).json({ 
-//             message: 'Error creating recipes', 
-//             error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error' 
-//         });
-//     }
-// };
-
-
 const addRecipe = async (req, res) => {
-  try {
-    const {
-      recipe_title,
-      recipe_description,
-      instructions,
-      recipe_user,
-      type,
-      difficulty,
-      cookingTime,
-      ingredients,
-    } = req.body;
+    const recipes = req.body;
 
-    if (!recipe_title || !instructions || !ingredients || !recipe_user || !type) {
-      return res.status(400).json({ message: 'Missing required fields' });
+    if (!Array.isArray(recipes)) {
+        return res.status(400).json({ message: 'Request body must be an array of recipes.' });
     }
 
-    const parsedIngredients = JSON.parse(ingredients); // ingredients is sent as a string
-
-    const imageBuffer = req.file ? req.file.buffer.toString('base64') : '';
-
-    const recipe = await Recipe.create({
-      recipe_title,
-      recipe_description,
-      instructions,
-      ingredients: parsedIngredients.map((ing) => ({
-        name: ing.name.toLowerCase(),
-        quantity: ing.quantity,
-      })),
-      recipe_user,
-      type,
-      difficulty,
-      cookingTime,
-      recipe_image: imageBuffer ? `data:${req.file.mimetype};base64,${imageBuffer}` : '',
-    });
-
-    const user = await User.findById(recipe_user);
-    if (!user) {
-      return res.status(400).json({ message: 'User does not exist' });
+    for (const recipe of recipes) {
+        if (!recipe.recipe_title || !recipe.instructions || !recipe.ingredients || !recipe.recipe_user || !recipe.type) {
+          return res.status(400).json({ message: 'One or more recipes are missing required fields.' });
+        }
     }
 
-    user.ownRecipes.push(recipe._id);
-    await user.save();
+    try {
+        const session = await mongoose.startSession();
+        session.startTransaction();
 
-    return res.status(201).json({ message: 'Recipe created successfully.' });
-  } catch (error) {
-    return res.status(500).json({ message: 'Error creating recipe', error: error.message });
-  }
+        try {
+            const newRecipes = await Recipe.create(recipes.map(recipe => ({
+                recipe_title: recipe.recipe_title,
+                recipe_description: recipe.recipe_description,
+                instructions: recipe.instructions,
+                ingredients: recipe.ingredients.map(ing => ({
+                    name: ing.name.toLowerCase(),
+                    quantity: ing.quantity
+                })),
+                recipe_user: recipe.recipe_user,
+                recipe_image: recipe.recipe_image,
+                type: recipe.type,
+                difficulty: recipe.difficulty,
+                cookingTime: recipe.cookingTime
+            })), { session });
+
+            
+            const user = await User.findById(recipes[0].recipe_user).session(session);
+            if (!user) {
+                await session.abortTransaction();
+                return res.status(400).json({ message: 'The user does not exist.' });
+            }
+
+            user.ownRecipes.push(...newRecipes.map(r => r._id));
+            await user.save({ session });
+
+            
+            await session.commitTransaction();
+            res.status(201).json({ message: 'Recipes created successfully.' });
+
+        } catch (error) {
+            await session.abortTransaction();
+            throw error;
+        } finally {
+            session.endSession();
+        }
+
+    } catch (error) {
+        return res.status(500).json({ 
+            message: 'Error creating recipes', 
+            error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error' 
+        });
+    }
 };
 
 
-const editRecipe = async (req, res) => {
+// const addRecipe = async (req, res) => {
+//   try {
+//     const {
+//       recipe_title,
+//       recipe_description,
+//       instructions,
+//       recipe_user,
+//       type,
+//       difficulty,
+//       // cookingTime,
+//       ingredients,
+//     } = req.body;
 
-        const { RecipeId } = req.params;
+//     if (!recipe_title || !instructions || !ingredients || !recipe_user || !type) {
+//       return res.status(400).json({ message: 'Missing required fields' });
+//     }
 
-        try {
-          // Find the recipe
-          let recipe = await Recipe.findById(RecipeId);
-          if (!recipe) {
-            return res.status(404).json({ message: 'Recipe not found' });
-          }
+//     const parsedIngredients = JSON.parse(ingredients); // ingredients is sent as a string
+
+//     const imageBuffer = req.file ? req.file.buffer.toString('base64') : '';
+
+//     const recipe = await Recipe.create({
+//       recipe_title,
+//       recipe_description,
+//       instructions,
+//       ingredients: parsedIngredients.map((ing) => ({
+//         name: ing.name.toLowerCase(),
+//         quantity: ing.quantity,
+//       })),
+//       recipe_user,
+//       type,
+//       difficulty,
+//       cookingTime,
+//       recipe_image: imageBuffer ? `data:${req.file.mimetype};base64,${imageBuffer}` : '',
+//     });
+
+//     const user = await User.findById(recipe_user);
+//     if (!user) {
+//       return res.status(400).json({ message: 'User does not exist' });
+//     }
+
+//     user.ownRecipes.push(recipe._id);
+//     await user.save();
+
+//     return res.status(201).json({ message: 'Recipe created successfully.' });
+//   } catch (error) {
+//     return res.status(500).json({ message: 'Error creating recipe', error: error.message });
+//   }
+// };
+
+
+// const editRecipe = async (req, res) => {
+
+//         const { RecipeId } = req.params;
+
+//         try {
+//           // Find the recipe
+//           let recipe = await Recipe.findById(RecipeId);
+//           if (!recipe) {
+//             return res.status(404).json({ message: 'Recipe not found' });
+//           }
       
-          // Prepare updated fields
-          const updatedFields = {};
-          if (req.body.newRecipe_title) updatedFields.recipe_title = req.body.newRecipe_title;
+//           // Prepare updated fields
+//           const updatedFields = {};
+//           if (req.body.newRecipe_title) updatedFields.recipe_title = req.body.newRecipe_title;
       
-          // Parse ingredients from JSON string
-          if (req.body.newIngredients) {
-            try {
-              const parsedIngredients = JSON.parse(req.body.newIngredients);
-              if (Array.isArray(parsedIngredients)) {
-                // Transform ingredient_name to name and ensure quantity is present
-                const transformedIngredients = parsedIngredients.map(ingredient => ({
-                  name: ingredient.name || '', // Map ingredient_name to name
-                  quantity: ingredient.quantity || '',   // Ensure quantity is present
-                  unit: ingredient.unit || ''           // Include unit if available
-                }));
-                updatedFields.ingredients = transformedIngredients;
-              } else {
-                return res.status(400).json({ message: 'Invalid ingredients format' });
-              }
-            } catch (error) {
-              return res.status(400).json({ message: 'Invalid ingredients JSON' });
-            }
-          }
+//           // Parse ingredients from JSON string
+//           if (req.body.newIngredients) {
+//             try {
+//               const parsedIngredients = JSON.parse(req.body.newIngredients);
+//               if (Array.isArray(parsedIngredients)) {
+//                 // Transform ingredient_name to name and ensure quantity is present
+//                 const transformedIngredients = parsedIngredients.map(ingredient => ({
+//                   name: ingredient.name || '', // Map ingredient_name to name
+//                   quantity: ingredient.quantity || '',   // Ensure quantity is present
+//                   unit: ingredient.unit || ''           // Include unit if available
+//                 }));
+//                 updatedFields.ingredients = transformedIngredients;
+//               } else {
+//                 return res.status(400).json({ message: 'Invalid ingredients format' });
+//               }
+//             } catch (error) {
+//               return res.status(400).json({ message: 'Invalid ingredients JSON' });
+//             }
+//           }
       
-          if (req.body.newInstructions) updatedFields.instructions = req.body.newInstructions;
-          if (req.body.newRecipe_description) updatedFields.recipe_description = req.body.newRecipe_description;
-          if (req.body.newCookingTime) {
-            const cookingTime = parseInt(req.body.newCookingTime, 10);
-            if (!isNaN(cookingTime)) {
-              updatedFields.cookingTime = cookingTime;
-            } else {
-              return res.status(400).json({ message: 'Invalid cooking time' });
-            }
-          }
+//           if (req.body.newInstructions) updatedFields.instructions = req.body.newInstructions;
+//           if (req.body.newRecipe_description) updatedFields.recipe_description = req.body.newRecipe_description;
+//           if (req.body.newCookingTime) {
+//             const cookingTime = parseInt(req.body.newCookingTime, 10);
+//             if (!isNaN(cookingTime)) {
+//               updatedFields.cookingTime = cookingTime;
+//             } else {
+//               return res.status(400).json({ message: 'Invalid cooking time' });
+//             }
+//           }
       
-          // Handle image upload
-          if (req.file) {
-            // Convert image to Base64 if needed
-            const imageBuffer = req.file.buffer;
-            const imageBase64 = imageBuffer.toString('base64');
-            const imageMimeType = req.file.mimetype;
-            updatedFields.recipe_image = `data:${imageMimeType};base64,${imageBase64}`;
-          } else if (req.body.newRecipe_image) {
-            updatedFields.recipe_image = req.body.newRecipe_image;
-          }
+//           // Handle image upload
+//           if (req.file) {
+//             // Convert image to Base64 if needed
+//             const imageBuffer = req.file.buffer;
+//             const imageBase64 = imageBuffer.toString('base64');
+//             const imageMimeType = req.file.mimetype;
+//             updatedFields.recipe_image = `data:${imageMimeType};base64,${imageBase64}`;
+//           } else if (req.body.newRecipe_image) {
+//             updatedFields.recipe_image = req.body.newRecipe_image;
+//           }
       
-          // Update the recipe
-          if (Object.keys(updatedFields).length === 0) {
-            return res.status(200).json({ message: 'No changes in the recipe info.', recipe });
-          }
+//           // Update the recipe
+//           if (Object.keys(updatedFields).length === 0) {
+//             return res.status(200).json({ message: 'No changes in the recipe info.', recipe });
+//           }
       
-          const updatedRecipe = await Recipe.findByIdAndUpdate(
-            RecipeId,
-            { $set: updatedFields },
-            { new: true }
-          );
+//           const updatedRecipe = await Recipe.findByIdAndUpdate(
+//             RecipeId,
+//             { $set: updatedFields },
+//             { new: true }
+//           );
       
-          res.status(200).json(updatedRecipe);
-        } catch (error) {
-          console.error("Error updating recipe:", error);
-          return res.status(400).json({ message: error.message });
-        }
-}
+//           res.status(200).json(updatedRecipe);
+//         } catch (error) {
+//           console.error("Error updating recipe:", error);
+//           return res.status(400).json({ message: error.message });
+//         }
+// }
 
 
 const getMultipleRecipesData = async (req,res) => {
