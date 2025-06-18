@@ -148,6 +148,7 @@ const RecipeInfo = () => {
 
       // if (!response.ok) throw new Error('Failed to update recipe');
       const updatedRecipe = await response.json();
+      console.log(updatedRecipe)
       setRecipe(updatedRecipe);
       setIsEditing(false);
     } catch (error) {
