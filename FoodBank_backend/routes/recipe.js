@@ -14,7 +14,7 @@ const upload = multer();
 
 router.get('/' ,getRecipes)//all recipe
 
-router.post('/' , upload.single('recipe_image'), addRecipe)
+router.post('/' , addRecipe)
 
 router.get('/getRecipesPerPage' , getRecipesPerPage);
 

@@ -210,7 +210,6 @@ const AddRecipe = () => {
   // };
 
 
-  import imageCompression from 'browser-image-compression';
 
 const handleSubmit = async (e) => {
   e.preventDefault();
