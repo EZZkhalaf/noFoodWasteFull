@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import Footer from '../Components/Footer';
 import { CircleLoader } from 'react-spinners';
+import imageCompression from 'browser-image-compression';
 
 import { ThreeDot } from 'react-loading-indicators';
 
@@ -207,6 +208,10 @@ const AddRecipe = () => {
   //     setLoading(false);
   //   }
   // };
+
+
+  import imageCompression from 'browser-image-compression';
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
@@ -235,22 +240,38 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    const form = new FormData();
-    form.append('recipe_title', formData.recipe_title);
-    form.append('recipe_description', formData.recipe_description);
-    form.append('instructions', formData.instructions);
-    form.append('type', formData.type);
-    form.append('recipe_user', userId);
-    form.append('difficulty', formData.difficulty || '');
-    form.append('cookingTime', formData.cookingTime || '');
-    form.append('ingredients', JSON.stringify(formData.ingredients));
+    // Step 1: compress image
+    let imageData = '';
     if (selectedFile) {
-      form.append('recipe_image', selectedFile);
+      const options = {
+        maxSizeMB: 0.5,          // <= compress to max 0.5MB
+        maxWidthOrHeight: 1024,  // <= resize large images
+        useWebWorker: true,
+      };
+
+      const compressedFile = await imageCompression(selectedFile, options);
+      imageData = await imageCompression.getDataUrlFromFile(compressedFile);
+
+      if (!imageData.startsWith('data:image/')) {
+        setError('Invalid image format');
+        setLoading(false);
+        return;
+      }
+    } else {
+      imageData = formData.recipe_image || '';
     }
 
+    // Submit to backend
     const response = await fetch('https://nofoodwastefull.onrender.com/recipe', {
       method: 'POST',
-      body: form,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([{
+        ...formData,
+        recipe_image: imageData,
+        recipe_user: userId,
+      }]),
     });
 
     const data = await response.json();
@@ -272,14 +293,12 @@ const handleSubmit = async (e) => {
       setError(data.message || 'Error adding recipe');
     }
   } catch (err) {
+    console.error(err);
     setError('Error adding recipe. Please try again.');
   } finally {
     setLoading(false);
   }
 };
-
-
-
 
   
 
